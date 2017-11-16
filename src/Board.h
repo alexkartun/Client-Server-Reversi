@@ -1,9 +1,5 @@
 /*
  * Board.h
- *	Alex Kartun
- *	324429216
- *  Created on: Oct 23, 2017
- *      Author: kartuna
  */
 #ifndef BOARD_H_
 #define BOARD_H_
@@ -45,4 +41,5 @@ protected:
     int size_; //actual size of the game
     char **board_; //the n*n dynamic board of chars will represent the board of the game.
 };
+
 #endif /* BOARD_H_ */

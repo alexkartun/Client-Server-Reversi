@@ -1,8 +1,5 @@
 /*
- * Rules.h
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
+ * Logic.h
  */
 #ifndef LOGIC_H_
 #define LOGIC_H_
@@ -11,6 +8,9 @@
 #include <map>
 #include "Board.h"
 using namespace std;
+/**
+ * Header of logic class.
+ */
 class Logic {
 public:
 	/**
@@ -88,4 +88,5 @@ private:
 	unsigned int destroyed_enemies_;
 	Board *gaming_board_; //gaming board
 };
+
 #endif /* LOGIC_H_ */

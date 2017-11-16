@@ -1,23 +1,24 @@
 /*
  * User.cpp
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
  */
 #include "User.h"
 #include <iostream>
 using namespace std;
+
 User::User(char player) {
 	value_ = player;
 	count_soldiers_ = 2;
 	played_ = false;
 }
+
 bool User::isPlayed() const {
 	return played_;
 }
+
 void User::setPlayed(bool status) {
 	played_ = status;
 }
+
 void User::makeMove(Player *opponent, Logic *logic_game) {
 	cout << value_ <<": It's your move." << endl;
 	logic_game->possibleMove(value_, opponent->getValue());
@@ -51,12 +52,15 @@ void User::makeMove(Player *opponent, Logic *logic_game) {
 	logic_game->clearDestroyed(); // reset destroyed variable to = 0
 	played_ = true; //user played actual move
 }
+
 unsigned int User::getSoldiers() const {
 	return count_soldiers_;
 }
+
 void User::setSoldiers(int new_count) {
 	count_soldiers_ = new_count;
 }
+
 char User::getValue() const {
 	return value_;
 }

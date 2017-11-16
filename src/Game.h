@@ -1,8 +1,5 @@
 /*
  * Game.h
- *
- *  Created on: Oct 27, 2017
- *      Author: kartuna
  */
 #ifndef GAME_H_
 #define GAME_H_
@@ -49,4 +46,5 @@ private:
 	bool passed_; //if player dont have possible move this bollean become true.
 	bool running_; //the running bolean if the game, if this boolean become false game is over
 };
+
 #endif /* GAME_H_ */

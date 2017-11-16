@@ -1,12 +1,12 @@
 /*
  * Player.h
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
  */
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include "Logic.h"
+/**
+ * Interface player class.
+ */
 class Player {
 public:
 	/**
@@ -41,4 +41,5 @@ public:
 	 */
 	virtual void setPlayed(bool) = 0;
 };
+
 #endif /* PLAYER_H_ */

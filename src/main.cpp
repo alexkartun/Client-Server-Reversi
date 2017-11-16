@@ -1,9 +1,7 @@
 /*
  * main.cpp
- *	Alex Kartun
- *	324429216
- *  Created on: Oct 23, 2017
- *      Author: kartuna
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #include "Game.h"
 #define SIZE 8

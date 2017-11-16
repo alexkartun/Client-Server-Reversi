@@ -1,12 +1,10 @@
 /*
  * Console.cpp
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
  */
 #include "Console.h"
 #include <iostream>
 using namespace std;
+
 void Console::printBoard() const {
 	//First row of the board
     cout << " ";

@@ -1,10 +1,8 @@
 /*
  * Board.cpp
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
  */
 #include "Board.h"
+
 Board::Board(int size_board) {
 	size_ = size_board;
 	board_ = new char*[size_];
@@ -26,12 +24,15 @@ Board::~Board() {
 	}
 	delete[] board_;
 }
+
 int Board::getSize() const {
 	return size_;
 }
+
 void Board::setValue(int row, int col, char player) {
 	board_[row][col] = player;
 }
+
 char Board::getValue(int row, int col) const {
 	return board_[row][col];
 }

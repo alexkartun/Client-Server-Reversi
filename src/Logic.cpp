@@ -1,14 +1,12 @@
 /*
- * Rules.cpp
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
+ * Logic.cpp
  */
 #include "Logic.h"
 #include <algorithm>
 #include "Console.h"
 #include <iostream>
 #include <stdlib.h>
+
 Logic::Logic(int size) {
 	//initializing all the members of the class.
 	gaming_board_ = new Console(size);
@@ -18,9 +16,11 @@ Logic::Logic(int size) {
 	soldiers_.push_back(Move(4, 4));
 	destroyed_enemies_ = 0;
 }
+
 Logic::~Logic() {
 	delete gaming_board_;
 }
+
 void Logic::possibleMove(char current, char opponent) {
 	for (unsigned int i = 0; i < soldiers_.size(); i++) { //we want to run only on soldiers that on the field
 		//and not all the board
@@ -30,6 +30,7 @@ void Logic::possibleMove(char current, char opponent) {
 		}
 	}
 }
+
 void Logic::checkSurrounding(int i, int j, char opponent) {
 	set<Move> temp_moves; // will save all posible enemies line
 	int temp_row = i;
@@ -193,6 +194,7 @@ void Logic::checkSurrounding(int i, int j, char opponent) {
 		}
 	}
 }
+
 bool Logic::checkValidality(Move p) {
 	for (unsigned int i = 0; i < moves_.size(); i++) {
 		if (moves_.find(p) != moves_.end()) {
@@ -201,9 +203,11 @@ bool Logic::checkValidality(Move p) {
 	}
 	return false;
 }
+
 bool Logic::isEmpty() const {
 	return moves_.empty();
 }
+
 void Logic::printMoves() const {
 	//Printing the possible move.
 	cout << "Your possible moves: "; //iterativly go over the keys of the map
@@ -214,6 +218,7 @@ void Logic::printMoves() const {
 	cout << endl;
 	cout << endl;
 }
+
 void Logic::finishMove(int row, int col, char current) {
 	//Change the value in row, col and change the enemy value.
 	gaming_board_->setValue(row - 1, col - 1, current);
@@ -230,12 +235,15 @@ void Logic::finishMove(int row, int col, char current) {
 	//clear the moves.
 	moves_.clear();
 }
+
 Board* Logic::getBoard() const {
 	return gaming_board_;
 }
+
 unsigned int Logic::getDestroyed() {
 	return destroyed_enemies_;
 }
+
 void Logic::clearDestroyed() {
 	destroyed_enemies_ = 0;
 }

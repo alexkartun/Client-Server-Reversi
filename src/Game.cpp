@@ -1,18 +1,17 @@
 /*
  * Game.cpp
- *
- *  Created on: Oct 27, 2017
- *      Author: kartuna
  */
 #include <iostream>
 #include "Game.h"
 #include "User.h"
 using namespace std;
+
 Game::~Game() {
 	delete current_;
 	delete opponent_;
 	delete logic_game_;
 }
+
 void Game::initGame(int size) {
 	logic_game_ = new Logic(size);
 	current_ = new User('X');
@@ -20,15 +19,18 @@ void Game::initGame(int size) {
 	running_ = false;
 	passed_ = false;
 }
+
 void Game::startGame() {
 	cout << "Current Board:" << endl;
 	cout << endl;
 	logic_game_->getBoard()->printBoard();
 	running_ = true;
 }
+
 bool Game::getStatus() const {
 	return running_;
 }
+
 void Game::endGame() {
 	if (opponent_->getSoldiers() > current_->getSoldiers()) {
 		cout << endl << "White player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
@@ -38,6 +40,7 @@ void Game::endGame() {
 		cout << endl <<  "Draw!" << endl;
 	}
 }
+
 void Game::passTurn() {
 	cout << "No possible moves. Play passes back to other player.";
 	cout << endl;
@@ -47,6 +50,7 @@ void Game::passTurn() {
 	}
 	passed_ = true;
 }
+
 void Game::playTurn() {
 	if (current_->isPlayed()) {
 		opponent_->makeMove(current_, logic_game_); //opponent turn
