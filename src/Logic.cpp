@@ -2,6 +2,7 @@
  * Logic.cpp
  */
 #include "Logic.h"
+#include "Console.h"
 #include <algorithm>
 #include "Console.h"
 #include <iostream>
@@ -19,6 +20,84 @@ Logic::Logic(int size) {
 
 Logic::~Logic() {
 	delete gaming_board_;
+}
+
+Logic::Move Logic::minMaxAlgorithm(char opponent, int opponent_soldiers, char current, int current_soldiers) {
+	MoveArrayMap temp_map; //temp map of moves we will iterate over
+	temp_map.insert(moves_.begin(), moves_.end());
+	moves_.clear();
+	map<Move,int> grade_per_move; //map of move and his grade
+	Board *temp_board = new Console(gaming_board_->getSize()); //temp board that will sit on memory for backup
+	temp_board->resetAllValues();
+	for (unsigned int i = 0; i < soldiers_.size(); i++) { //init the temp board with all values of main board
+		temp_board->setValue(soldiers_[i].row, soldiers_[i].col,
+		gaming_board_->getValue(soldiers_[i].row, soldiers_[i].col));
+	}
+	vector<Move> temp_soldiers(soldiers_); //temp vector of soldiers that on the field before making the move.
+	for (MoveArrayMap::const_iterator it = temp_map.begin(); it != temp_map.end(); it++) { //iterate over
+		/**********************Make the move by changing the enemies********************/
+		gaming_board_->setValue(it->first.row - 1, it->first.col - 1, current);
+		set<Move> enemies = temp_map.find(it->first)->second;
+		for (set<Move>::const_iterator it_s = enemies.begin(); it_s != enemies.end(); it_s++) {
+			destroyed_enemies_++;
+			gaming_board_->setValue(it_s->row - 1, it_s->col - 1, current);
+		}
+		int cpu_soldiers = current_soldiers + 1 + destroyed_enemies_; //new count of cpu soldiers
+		int user_soldiers = opponent_soldiers - destroyed_enemies_; //new count of user soldiers
+		soldiers_.push_back(Move(it->first.row - 1, it->first.col - 1)); //push the new move
+		/*Now after cpu made a mov on the memory we want to check the possible moves of the user and his grading*/
+		possibleMove(opponent, current);
+		grade_per_move[Move(it->first.row - 1, it->first.col - 1)] = bestOpponentMove(cpu_soldiers, user_soldiers);
+		/*After we foiund the best move that user can do we insert this grade to the map of grades*/
+		/*And now we can clear the soldiers vector and moves map and board
+		 * of the game to pre status of the board,cause we didnt actually made a move*/
+		soldiers_.clear();
+		moves_.clear();
+		gaming_board_->resetAllValues();
+		for (unsigned int i = 0; i < temp_soldiers.size(); i++) {
+			gaming_board_->setValue(temp_soldiers[i].row, temp_soldiers[i].col,
+			temp_board->getValue(temp_soldiers[i].row, temp_soldiers[i].col));
+			soldiers_.push_back(Move(temp_soldiers[i].row, temp_soldiers[i].col));
+		}
+		destroyed_enemies_= 0;
+	}
+	moves_.insert(temp_map.begin(), temp_map.end()); //recover moves map
+	delete temp_board; //destruc the board we used
+	/*****From here on we will fnd the minimum grade and returns this move*****/
+	int minimum = -1;
+	map<Move, int>::const_iterator it;
+	for (it = grade_per_move.begin(); it != grade_per_move.end(); it++) {
+		if (it == grade_per_move.begin()) {
+			minimum = grade_per_move.find(Move(it->first.row, it->first.col))->second;
+		} else { //if minimun is bigger than next grade, so next grade will become minimum
+			if (minimum > grade_per_move.find(Move(it->first.row, it->first.col))->second) {
+				minimum = grade_per_move.find(Move(it->first.row, it->first.col))->second;
+			}
+		}
+	}
+	/*Iterate over the map, search for the minimum value we found and return the move*/
+	for (it = grade_per_move.begin(); it != grade_per_move.end(); it++) {
+		if (it->second == minimum) {
+			break;
+		}
+	}
+	return it->first;
+}
+
+int Logic::bestOpponentMove(int cpu_soldiers, int user_soldiers) {
+	int grade_max = -1;
+	int count_destroyed = 0;
+	for (MoveArrayMap::const_iterator it = moves_.begin(); it != moves_.end(); it++) {
+		set<Move> enemies = moves_.find(it->first)->second; //iterate over the posssible moves of the user
+		for (set<Move>::const_iterator it_s = enemies.begin(); it_s != enemies.end(); it_s++) {
+			count_destroyed++; //count the destroyed cpu enemies
+		} /*check if this move is the best move that user can do.*/
+		if (grade_max < (user_soldiers + count_destroyed + 1) - (cpu_soldiers - count_destroyed)) {
+			grade_max = user_soldiers + count_destroyed + 1 - (cpu_soldiers - count_destroyed);
+		}
+		count_destroyed = 0;
+	}
+	return grade_max;
 }
 
 void Logic::possibleMove(char current, char opponent) {

@@ -1,17 +1,17 @@
 /*
- * User.h
+ * Cpu.h
  */
-#ifndef USER_H_
-#define USER_H_
+#ifndef CPU_H_
+#define CPU_H_
 #include "Player.h"
 #include "Logic.h"
 /**
- * Header of class user that derives from Player.
+ * Cpu derived player class.
  */
-class User: public Player {
+class Cpu: public Player {
 public:
-	User(char);
-	User(char, int);
+	Cpu(char);
+	Cpu(char, int);
 	void makeMove(Player *, Logic *);
 	unsigned int getSoldiers() const;
 	char getValue() const;
@@ -19,9 +19,9 @@ public:
 	bool isPlayed() const;
 	void setPlayed(bool);
 private:
-	char value_; // value of th player
+	char value_; // value of the player
 	int count_soldiers_; //actual count of this player's soldiers on the field
 	bool played_; //booleab if played = true or false if dont have any move to make
 };
 
-#endif /* USER_H_ */
+#endif /* CPU_H_ */

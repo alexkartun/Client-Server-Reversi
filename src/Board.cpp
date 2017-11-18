@@ -36,3 +36,10 @@ void Board::setValue(int row, int col, char player) {
 char Board::getValue(int row, int col) const {
 	return board_[row][col];
 }
+void Board::resetAllValues() {
+	for(int i = 0; i < size_; i++) {
+		for (int j = 0; j < size_; j++) {
+			board_[i][j] = ' '; //init all the cells of board to ' '
+		}
+	}
+}

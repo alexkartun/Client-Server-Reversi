@@ -37,6 +37,10 @@ public:
      * char - the value of the player that played 'X' or 'O'
      */
     void setValue(int, int , char);
+    /**
+     * Reset all values of the board to ' '.
+     */
+    void resetAllValues();
 protected:
     int size_; //actual size of the game
     char **board_; //the n*n dynamic board of chars will represent the board of the game.

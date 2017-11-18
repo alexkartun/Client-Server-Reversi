@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Game.h"
 #include "User.h"
+#include "Cpu.h"
+#include "Logic.h"
 using namespace std;
 
 Game::~Game() {
@@ -15,7 +17,7 @@ Game::~Game() {
 void Game::initGame(int size) {
 	logic_game_ = new Logic(size);
 	current_ = new User('X');
-	opponent_ = new User('O');
+	opponent_ = new Cpu('O'); //is computer
 	running_ = false;
 	passed_ = false;
 }

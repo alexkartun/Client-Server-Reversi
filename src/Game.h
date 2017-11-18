@@ -3,8 +3,8 @@
  */
 #ifndef GAME_H_
 #define GAME_H_
-#include "Player.h"
 #include "Logic.h"
+#include "Player.h"
 /**
  * Header of class game that running the thread of the game.
  */

@@ -17,7 +17,6 @@ public:
 	 * The player or cpu will make the move.
 	 * The algorithm of making moves located in logic for this our function getting as variable:
 	 * Player * = the referense to opponent player.
-	 * Logic * = the logic object to run all the algorithm of the game.
 	 */
 	virtual void makeMove(Player *, Logic *) = 0;
 	/**

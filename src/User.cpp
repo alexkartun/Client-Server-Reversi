@@ -10,7 +10,11 @@ User::User(char player) {
 	count_soldiers_ = 2;
 	played_ = false;
 }
-
+User::User(char player, int soldiers) {
+	value_ = player;
+	count_soldiers_ = soldiers;
+	played_= false;
+}
 bool User::isPlayed() const {
 	return played_;
 }
@@ -19,14 +23,14 @@ void User::setPlayed(bool status) {
 	played_ = status;
 }
 
-void User::makeMove(Player *opponent, Logic *logic_game) {
+void User::makeMove(Player *opponent, Logic *logic) {
 	cout << value_ <<": It's your move." << endl;
-	logic_game->possibleMove(value_, opponent->getValue());
+	logic->possibleMove(value_, opponent->getValue());
 	//If there is not possible moves for the player.
-	if (logic_game->isEmpty()) {
+	if (logic->isEmpty()) {
 		return;
 	}
-	logic_game->printMoves();
+	logic->printMoves();
 	//Choosing the move that player want to make with validality checking
 	cout << "Please enter your move row,col:";
 	string input;
@@ -36,7 +40,7 @@ void User::makeMove(Player *opponent, Logic *logic_game) {
 		if (input.length() == 3 && isdigit(input.at(0)) && input.at(1) == ' ' && isdigit(input.at(2))) {
 			row = input[0] - 48; //convert from ascii to int
 			col = input[2] - 48;
-			if (logic_game->checkValidality(Logic::Move(row, col))) {
+			if (logic->checkValidality(Logic::Move(row, col))) {
 				break;
 			} else {
 				cout << "Please enter your move row,col again:";
@@ -46,10 +50,10 @@ void User::makeMove(Player *opponent, Logic *logic_game) {
 		}
 	} while(true);
 	cout << endl;
-	logic_game->finishMove(row, col, value_); //finish the move of this player
-	count_soldiers_ += logic_game->getDestroyed() + 1; //calculating count of this player
-	opponent->setSoldiers(opponent->getSoldiers() - logic_game->getDestroyed()); //of other
-	logic_game->clearDestroyed(); // reset destroyed variable to = 0
+	logic->finishMove(row, col, value_); //finish the move of this player
+	count_soldiers_ += logic->getDestroyed() + 1; //calculating count of this player
+	opponent->setSoldiers(opponent->getSoldiers() - logic->getDestroyed()); //of other
+	logic->clearDestroyed(); // reset destroyed variable to = 0
 	played_ = true; //user played actual move
 }
 
