@@ -1,4 +1,4 @@
-gtest_src/gtest/gtest-all.d: ../gtest_src/gtest/gtest-all.cc \
- /home/kartuna/workspace/GitProject/gtest_src/gtest/gtest.h
+gtest_src/gtest/gtest-all.o: ../gtest_src/gtest/gtest-all.cc \
+ /home/ofir/Desktop/bug-free-waffle/gtest_src/gtest/gtest.h
 
-/home/kartuna/workspace/GitProject/gtest_src/gtest/gtest.h:
+/home/ofir/Desktop/bug-free-waffle/gtest_src/gtest/gtest.h:
