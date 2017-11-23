@@ -6,20 +6,17 @@
 CPP_SRCS += \
 ../test/gtest_main.cpp \
 ../test/test_board.cpp \
-../test/test_game.cpp \
-../test/test_player.cpp 
+../test/test_game.cpp 
 
 OBJS += \
 ./test/gtest_main.o \
 ./test/test_board.o \
-./test/test_game.o \
-./test/test_player.o 
+./test/test_game.o 
 
 CPP_DEPS += \
 ./test/gtest_main.d \
 ./test/test_board.d \
-./test/test_game.d \
-./test/test_player.d 
+./test/test_game.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

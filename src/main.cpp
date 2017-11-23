@@ -6,7 +6,7 @@
 #include "Game.h"
 #define SIZE 8
 /**
- * Main of the ex3.
+ * Main of the ex3
  */
 int main() {
 	Game reversi;
