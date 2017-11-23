@@ -1,8 +1,10 @@
-src/Logic.d: ../src/Logic.cpp ../src/Logic.h ../src/Board.h \
- ../src/Console.h
+src/Logic.d: ../src/Logic.cpp \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h \
+ /home/kartuna/workspace/GitProject/include/Console.h
 
-../src/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-../src/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
 
-../src/Console.h:
+/home/kartuna/workspace/GitProject/include/Console.h:

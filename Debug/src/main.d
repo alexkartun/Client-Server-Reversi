@@ -1,10 +1,13 @@
-src/main.d: ../src/main.cpp ../src/Game.h ../src/Logic.h ../src/Board.h \
- ../src/Player.h
+src/main.d: ../src/main.cpp \
+ /home/kartuna/workspace/GitProject/include/Game.h \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h \
+ /home/kartuna/workspace/GitProject/include/Player.h
 
-../src/Game.h:
+/home/kartuna/workspace/GitProject/include/Game.h:
 
-../src/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-../src/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
 
-../src/Player.h:
+/home/kartuna/workspace/GitProject/include/Player.h:

@@ -1,10 +1,13 @@
-src/User.d: ../src/User.cpp ../src/User.h ../src/Player.h ../src/Logic.h \
- ../src/Board.h
+src/User.d: ../src/User.cpp \
+ /home/kartuna/workspace/GitProject/include/User.h \
+ /home/kartuna/workspace/GitProject/include/Player.h \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h
 
-../src/User.h:
+/home/kartuna/workspace/GitProject/include/User.h:
 
-../src/Player.h:
+/home/kartuna/workspace/GitProject/include/Player.h:
 
-../src/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-../src/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
