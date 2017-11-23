@@ -11,10 +11,10 @@
 Logic::Logic(int size) {
 	//initializing all the members of the class.
 	gaming_board_ = new Console(size);
-	soldiers_.push_back(Move(3, 3));
-	soldiers_.push_back(Move(3, 4));
-	soldiers_.push_back(Move(4, 3));
-	soldiers_.push_back(Move(4, 4));
+	soldiers_.push_back(Move(size / 2 - 1, size / 2 - 1));
+	soldiers_.push_back(Move(size / 2 - 1, size / 2));
+	soldiers_.push_back(Move(size / 2, size / 2 - 1));
+	soldiers_.push_back(Move(size / 2, size / 2));
 	destroyed_enemies_ = 0;
 }
 

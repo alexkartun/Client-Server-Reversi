@@ -11,6 +11,10 @@
 class Game {
 public:
 	/**
+	 * Constructor.
+	 */
+	Game();
+	/**
 	 * Destructor.
 	 */
 	~Game();

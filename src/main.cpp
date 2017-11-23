@@ -6,9 +6,9 @@
 #include "Game.h"
 #define SIZE 8
 /**
- * Main of the ex2.
+ * Main of the ex3.
  */
-int main() {
+int main1() {
 	Game reversi;
 	reversi.initGame(SIZE); //for this exc we will use define later we will get args from user.
 	reversi.startGame();

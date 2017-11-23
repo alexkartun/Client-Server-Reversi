@@ -2,7 +2,8 @@
  * Board.cpp
  */
 #include "Board.h"
-
+#include <stdexcept>
+using namespace std;
 Board::Board(int size_board) {
 	size_ = size_board;
 	board_ = new char*[size_];
@@ -12,10 +13,10 @@ Board::Board(int size_board) {
 	        board_[i][j] = ' '; //init all the cells of board to ' '
 	    }
 	}
-	board_[3][3] = 'O';
-	board_[3][4] = 'X';
-	board_[4][3] = 'X';
-	board_[4][4] = 'O';
+	board_[size_ / 2 - 1][size_ / 2 - 1] = 'O';
+	board_[size_ / 2 - 1][size_ / 2] = 'X';
+	board_[size_ / 2][size_ / 2 - 1] = 'X';
+	board_[size_ / 2][size_ / 2] = 'O';
 }
 
 Board::~Board() {
@@ -30,10 +31,22 @@ int Board::getSize() const {
 }
 
 void Board::setValue(int row, int col, char player) {
+	if (row < 0 || col < 0) {
+		throw invalid_argument("Negative index");
+	}
+	if (row >= size_ || col >= size_) {
+		throw invalid_argument("Out of range");
+	}
 	board_[row][col] = player;
 }
 
 char Board::getValue(int row, int col) const {
+	if (row < 0 || col < 0) {
+		throw invalid_argument("Negative index");
+	}
+	if (row >= size_ || col >= size_) {
+		throw invalid_argument("Out of range");
+	}
 	return board_[row][col];
 }
 void Board::resetAllValues() {

@@ -8,6 +8,14 @@
 #include "Logic.h"
 using namespace std;
 
+Game::Game() {
+	current_ = new User('X');
+	opponent_ = new Cpu('O'); //is computer
+	running_ = false;
+	passed_ = false;
+	logic_game_ = NULL;
+}
+
 Game::~Game() {
 	delete current_;
 	delete opponent_;
@@ -15,11 +23,10 @@ Game::~Game() {
 }
 
 void Game::initGame(int size) {
+	if (size <= 0) {
+		throw invalid_argument("Negative argument");
+	}
 	logic_game_ = new Logic(size);
-	current_ = new User('X');
-	opponent_ = new Cpu('O'); //is computer
-	running_ = false;
-	passed_ = false;
 }
 
 void Game::startGame() {
@@ -44,12 +51,12 @@ void Game::endGame() {
 }
 
 void Game::passTurn() {
-	cout << "No possible moves. Play passes back to other player.";
-	cout << endl;
 	if (passed_) { //if last turn was passed and this too, meaning not turns possible for both players
+		cout << "No possible moves. Game is Over!" << endl;
 		running_ = false; //if passed is true thats mean that both players dont have moves so the game is over.
 		return;
 	}
+	cout << "No possible moves. Play passes back to other player." << endl;
 	passed_ = true;
 }
 
