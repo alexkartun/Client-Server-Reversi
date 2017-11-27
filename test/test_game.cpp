@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "Game.h"
 using namespace std;
-TEST(GameTest, HandlesIvalidArgument) {
+TEST(GameTest, HandlesInvalidArgument) {
 	Game reversi;
 	EXPECT_THROW(reversi.initGame(0), invalid_argument);
 	EXPECT_THROW(reversi.initGame(-5), invalid_argument);
