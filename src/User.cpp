@@ -11,12 +11,6 @@ User::User(char player) {
 	played_ = false;
 }
 
-User::User(char player, int soldiers) {
-	value_ = player;
-	count_soldiers_ = soldiers;
-	played_= false;
-}
-
 bool User::isPlayed() const {
 	return played_;
 }

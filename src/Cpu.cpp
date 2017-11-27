@@ -11,12 +11,6 @@ Cpu::Cpu(char player) {
 	played_ = false;
 }
 
-Cpu::Cpu(char player, int soldiers) {
-	value_ = player;
-	count_soldiers_ = soldiers;
-	played_= false;
-}
-
 bool Cpu::isPlayed() const {
 	return played_;
 }

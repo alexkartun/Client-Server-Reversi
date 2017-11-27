@@ -11,7 +11,6 @@
 class Cpu: public Player {
 public:
 	Cpu(char);
-	Cpu(char, int);
 	void makeMove(Player *, Logic *);
 	unsigned int getSoldiers() const;
 	char getValue() const;

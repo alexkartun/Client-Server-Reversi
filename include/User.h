@@ -11,7 +11,6 @@
 class User: public Player {
 public:
 	User(char);
-	User(char, int);
 	void makeMove(Player *, Logic *);
 	unsigned int getSoldiers() const;
 	char getValue() const;
