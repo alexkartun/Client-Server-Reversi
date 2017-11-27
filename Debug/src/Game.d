@@ -1,19 +1,19 @@
-src/Game.o: ../src/Game.cpp \
- /home/ofir/Desktop/bug-free-waffle/include/Game.h \
- /home/ofir/Desktop/bug-free-waffle/include/Logic.h \
- /home/ofir/Desktop/bug-free-waffle/include/Board.h \
- /home/ofir/Desktop/bug-free-waffle/include/Player.h \
- /home/ofir/Desktop/bug-free-waffle/include/User.h \
- /home/ofir/Desktop/bug-free-waffle/include/Cpu.h
+src/Game.d: ../src/Game.cpp \
+ /home/kartuna/workspace/GitProject/include/Game.h \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h \
+ /home/kartuna/workspace/GitProject/include/Player.h \
+ /home/kartuna/workspace/GitProject/include/User.h \
+ /home/kartuna/workspace/GitProject/include/Cpu.h
 
-/home/ofir/Desktop/bug-free-waffle/include/Game.h:
+/home/kartuna/workspace/GitProject/include/Game.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Player.h:
+/home/kartuna/workspace/GitProject/include/Player.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/User.h:
+/home/kartuna/workspace/GitProject/include/User.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Cpu.h:
+/home/kartuna/workspace/GitProject/include/Cpu.h:

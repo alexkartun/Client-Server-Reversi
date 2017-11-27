@@ -1,14 +1,18 @@
 /*
  * test_game.cpp
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #include "gtest/gtest.h"
 #include "Game.h"
 using namespace std;
+
 TEST(GameTest, HandlesInvalidArgument) {
 	Game reversi;
 	EXPECT_THROW(reversi.initGame(0), invalid_argument);
 	EXPECT_THROW(reversi.initGame(-5), invalid_argument);
 }
+
 TEST(GameTest, HandlesStopGame) {
 	Game reversi;
 	reversi.initGame(2);

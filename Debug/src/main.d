@@ -1,13 +1,13 @@
-src/main.o: ../src/main.cpp \
- /home/ofir/Desktop/bug-free-waffle/include/Game.h \
- /home/ofir/Desktop/bug-free-waffle/include/Logic.h \
- /home/ofir/Desktop/bug-free-waffle/include/Board.h \
- /home/ofir/Desktop/bug-free-waffle/include/Player.h
+src/main.d: ../src/main.cpp \
+ /home/kartuna/workspace/GitProject/include/Game.h \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h \
+ /home/kartuna/workspace/GitProject/include/Player.h
 
-/home/ofir/Desktop/bug-free-waffle/include/Game.h:
+/home/kartuna/workspace/GitProject/include/Game.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Player.h:
+/home/kartuna/workspace/GitProject/include/Player.h:

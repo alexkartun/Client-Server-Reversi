@@ -1,4 +1,4 @@
-src/Board.o: ../src/Board.cpp \
- /home/ofir/Desktop/bug-free-waffle/include/Board.h
+src/Board.d: ../src/Board.cpp \
+ /home/kartuna/workspace/GitProject/include/Board.h
 
-/home/ofir/Desktop/bug-free-waffle/include/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:

@@ -1,5 +1,7 @@
 /*
  * Board.h
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #ifndef BOARD_H_
 #define BOARD_H_

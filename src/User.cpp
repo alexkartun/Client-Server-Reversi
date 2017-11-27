@@ -1,5 +1,7 @@
 /*
  * User.cpp
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #include "User.h"
 #include "Logic.h"
@@ -32,8 +34,6 @@ void User::makeMove(Player *cpu, Logic *logic) {
 	logic->printMoves();
 	//Choosing the move that player want to make with validality checking
 	cout << "Please enter your move row,col:";
-	string input;
-	int row, col;
 	//loop that checking the validality of the move the user want to make,
 	//will run till entered valid move
 	do {
@@ -53,7 +53,7 @@ void User::makeMove(Player *cpu, Logic *logic) {
 	} while(true);
 	cout << endl;
 	//finish the move of this player
-	logic->finishMove(row, col, value_);
+	logic->finishMove(chosenRow, chosenCol, value_);
 	//calculating count user
 	count_soldiers_ += logic->getDestroyed() + 1;
 	//of other

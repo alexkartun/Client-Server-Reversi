@@ -1,5 +1,7 @@
 /*
  * Game.h
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #ifndef GAME_H_
 #define GAME_H_

@@ -1,5 +1,7 @@
 /*
  * Player.h
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #ifndef PLAYER_H_
 #define PLAYER_H_
