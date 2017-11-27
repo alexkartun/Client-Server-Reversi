@@ -7,7 +7,6 @@
 #define SIZE 8
 /**
  * Main of the ex3
- * Mecheheuleee
  */
 int main() {
 	Game reversi;
