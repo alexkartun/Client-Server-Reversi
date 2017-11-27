@@ -42,8 +42,10 @@ public:
      */
     void resetAllValues();
 protected:
-    int size_; //actual size of the game
-    char **board_; //the n*n dynamic board of chars will represent the board of the game.
+    //actual size of the game
+    int size_;
+    //the n*n dynamic board of chars will represent the board of the game.
+    char **board_;
 };
 
 #endif /* BOARD_H_ */

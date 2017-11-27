@@ -9,7 +9,7 @@
 #include "Board.h"
 using namespace std;
 /**
- * Class of logic.
+ * Class logic. Calculating moves of the players.
  */
 class Logic {
 public:
@@ -36,17 +36,18 @@ public:
 	 */
 	Logic(int);
 	/**
-	 * Virtual Destructor.
+	 * Destructor.
 	 */
-	virtual ~Logic();
+	~Logic();
 	/**
 	 * Search for all possible moves.
 	 */
 	void possibleMove(char, char);
 	/**
  	 * Helpful function that check all the surrounding of the current player for making
-	 * the possible moves. This function running iterativly for every opponent cell he find near the current
-	 * player and if found possible move insert the enemies to set which will add to the map.
+	 * the possible moves. This function running iterativly for every opponent cell he
+	 * find near the current player and if found possible move insert the
+	 * enemies to set which will add to the map.
      * row - the row of current player
      * col - the col of current player
 	 * Player - the opponent we loking for
@@ -66,7 +67,8 @@ public:
 	 */
 	void printMoves() const;
 	/**
-	 * Finishing move by making the destroy enemy algorithm, reseting the moves and adding the move we did
+	 * Finishing move by making the destroy enemy algorithm,
+	 * reseting the moves and adding the move we did
 	 * to the array
 	 */
 	void finishMove(int, int, char);
@@ -75,7 +77,8 @@ public:
 	 */
 	Board* getBoard() const;
     /**
-	 * Returning the number of destroyed enemies after the algorithm for calulating the count of each player.
+	 * Returning the number of destroyed enemies after the algorithm for calulating the count
+	 * of each player.
 	 */
     unsigned int getDestroyed();
     /**
@@ -88,7 +91,8 @@ public:
      */
     int bestOpponentMove(int, int);
     /**
-     * Min-Max algorithm that found best cpu move depends on the move of the user that will come afterwards.
+     * Min-Max algorithm that found best cpu move depends on the move
+     * of the user that will come afterwards.
      * Returns the minnimum graded move of the best opponent moves.
      */
     Move minMaxAlgorithm(char, int, char, int);

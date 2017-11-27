@@ -5,20 +5,19 @@
 #include "Game.h"
 #include "User.h"
 #include "Cpu.h"
-#include "Logic.h"
 using namespace std;
 
 Game::Game() {
-	current_ = new User('X');
-	opponent_ = new Cpu('O'); //is computer
+	user_ = new User('X');
+	cpu_ = new Cpu('O');
 	running_ = false;
 	passed_ = false;
 	logic_game_ = NULL;
 }
 
 Game::~Game() {
-	delete current_;
-	delete opponent_;
+	delete user_;
+	delete cpu_;
 	delete logic_game_;
 }
 
@@ -41,19 +40,21 @@ bool Game::getStatus() const {
 }
 
 void Game::endGame() {
-	if (opponent_->getSoldiers() > current_->getSoldiers()) {
-		cout << endl << "White player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
-	} else if (current_->getSoldiers() > opponent_->getSoldiers()){
-		cout << endl << "Black player win with " << current_->getSoldiers() << " soldiers!" << endl;
+	if (cpu_->getSoldiers() > user_->getSoldiers()) {
+		cout << endl << "White player win with " << cpu_->getSoldiers() << " soldiers!" << endl;
+	} else if (user_->getSoldiers() > cpu_->getSoldiers()){
+		cout << endl << "Black player win with " << user_->getSoldiers() << " soldiers!" << endl;
 	} else {
 		cout << endl <<  "Draw!" << endl;
 	}
 }
 
 void Game::passTurn() {
-	if (passed_) { //if last turn was passed and this too, meaning not turns possible for both players
+	//if last turn was passed and this too, meaning not turns possible for both players
+	if (passed_) {
 		cout << "No possible moves. Game is Over!" << endl;
-		running_ = false; //if passed is true thats mean that both players dont have moves so the game is over.
+		//if passed is true thats mean that both players dont have moves so the game is over.
+		running_ = false;
 		return;
 	}
 	cout << "No possible moves. Play passes back to other player." << endl;
@@ -61,20 +62,26 @@ void Game::passTurn() {
 }
 
 void Game::playTurn() {
-	if (current_->isPlayed()) {
-		opponent_->makeMove(current_, logic_game_); //opponent turn
-		current_->setPlayed(false);
-		if (!opponent_->isPlayed()) {
-			opponent_->setPlayed(true);
+	if (user_->isPlayed()) {
+		//opponent turn
+		cpu_->makeMove(user_, logic_game_);
+		user_->setPlayed(false);
+		if (!cpu_->isPlayed()) {
+			cpu_->setPlayed(true);
 			passTurn();
 		} else {
 			passed_ = false;
 		}
-	} else { /*same for current and opponent*/
-		current_->makeMove(opponent_, logic_game_); //current turn
-		opponent_->setPlayed(false); //after current turn, opponent status should be not played
-		if (!current_->isPlayed()) { // if played so passed is should we false, otherwise it will be true
-			current_->setPlayed(true); //and will go to passed function
+	/*same for current and opponent*/
+	} else {
+		//current turn
+		user_->makeMove(cpu_, logic_game_);
+		//after current turn, opponent status should be not playe
+		cpu_->setPlayed(false);
+		//if played so passed is should we false, otherwise it will be true
+		if (!user_->isPlayed()) {
+			//and will go to passed function
+			user_->setPlayed(true);
 			passTurn();
 		} else {
 			passed_ = false;

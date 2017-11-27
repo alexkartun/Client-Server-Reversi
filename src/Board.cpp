@@ -4,13 +4,15 @@
 #include "Board.h"
 #include <stdexcept>
 using namespace std;
+
 Board::Board(int size_board) {
 	size_ = size_board;
 	board_ = new char*[size_];
 	for(int i = 0; i < size_; i++) {
 	    board_[i] = new char[size_];
 	    for (int j = 0; j < size_; j++) {
-	        board_[i][j] = ' '; //init all the cells of board to ' '
+	    	//init all the cells of board to ' '
+	        board_[i][j] = ' ';
 	    }
 	}
 	board_[size_ / 2 - 1][size_ / 2 - 1] = 'O';
@@ -49,10 +51,12 @@ char Board::getValue(int row, int col) const {
 	}
 	return board_[row][col];
 }
+
 void Board::resetAllValues() {
 	for(int i = 0; i < size_; i++) {
 		for (int j = 0; j < size_; j++) {
-			board_[i][j] = ' '; //init all the cells of board to ' '
+			//init all the cells of board to ' '
+			board_[i][j] = ' ';
 		}
 	}
 }

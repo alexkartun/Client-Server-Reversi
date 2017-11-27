@@ -4,7 +4,6 @@
 #include "Logic.h"
 #include "Console.h"
 #include <algorithm>
-#include "Console.h"
 #include <iostream>
 #include <stdlib.h>
 
@@ -22,38 +21,54 @@ Logic::~Logic() {
 	delete gaming_board_;
 }
 
-Logic::Move Logic::minMaxAlgorithm(char opponent, int opponent_soldiers, char current, int current_soldiers) {
-	MoveArrayMap temp_map; //temp map of moves we will iterate over
+Logic::Move Logic::minMaxAlgorithm(char user, int user_count, char cpu, int cpu_count) {
+	 //temp map of moves we will iterate over
+	MoveArrayMap temp_map;
 	temp_map.insert(moves_.begin(), moves_.end());
 	moves_.clear();
-	map<Move,int> grade_per_move; //map of move and his grade
-	Board *temp_board = new Console(gaming_board_->getSize()); //temp board that will sit on memory for backup
+	//map of move and his grade. For every cpu move we will grade the user next move.
+	map<Move,int> grade_per_move;
+	//temp board that will sit on memory for backup
+	Board *temp_board = new Console(gaming_board_->getSize());
 	temp_board->resetAllValues();
-	for (unsigned int i = 0; i < soldiers_.size(); i++) { //init the temp board with all values of main board
+	//init the temp board with all values of main board
+	for (unsigned int i = 0; i < soldiers_.size(); i++) {
 		temp_board->setValue(soldiers_[i].row, soldiers_[i].col,
 		gaming_board_->getValue(soldiers_[i].row, soldiers_[i].col));
 	}
-	vector<Move> temp_soldiers(soldiers_); //temp vector of soldiers that on the field before making the move.
-	for (MoveArrayMap::const_iterator it = temp_map.begin(); it != temp_map.end(); it++) { //iterate over
-		/**********************Make the move by changing the enemies********************/
-		gaming_board_->setValue(it->first.row - 1, it->first.col - 1, current);
+	//temp vector of soldiers that on the field before making the move.
+	vector<Move> temp_soldiers(soldiers_);
+	//iterate over the possible moves of cpu
+	for (MoveArrayMap::const_iterator it = temp_map.begin(); it != temp_map.end(); it++) {
+		/*Make the move by changing the enemies*/
+		gaming_board_->setValue(it->first.row - 1, it->first.col - 1, cpu);
 		set<Move> enemies = temp_map.find(it->first)->second;
 		for (set<Move>::const_iterator it_s = enemies.begin(); it_s != enemies.end(); it_s++) {
 			destroyed_enemies_++;
-			gaming_board_->setValue(it_s->row - 1, it_s->col - 1, current);
+			gaming_board_->setValue(it_s->row - 1, it_s->col - 1, cpu);
 		}
-		int cpu_soldiers = current_soldiers + 1 + destroyed_enemies_; //new count of cpu soldiers
-		int user_soldiers = opponent_soldiers - destroyed_enemies_; //new count of user soldiers
-		soldiers_.push_back(Move(it->first.row - 1, it->first.col - 1)); //push the new move
-		/*Now after cpu made a mov on the memory we want to check the possible moves of the user and his grading*/
-		possibleMove(opponent, current);
-		grade_per_move[Move(it->first.row - 1, it->first.col - 1)] = bestOpponentMove(cpu_soldiers, user_soldiers);
-		/*After we foiund the best move that user can do we insert this grade to the map of grades*/
-		/*And now we can clear the soldiers vector and moves map and board
-		 * of the game to pre status of the board,cause we didnt actually made a move*/
+		//new count of cpu soldiers
+		int cpu_soldiers = cpu_count + 1 + destroyed_enemies_;
+		//new count of user soldiers
+		int user_soldiers = user_count - destroyed_enemies_;
+		//push the new move
+		soldiers_.push_back(Move(it->first.row - 1, it->first.col - 1));
+		/* Now after cpu made a move on the memory we want to check
+		 * the possible moves of the user and his grading
+		 */
+		possibleMove(user, cpu);
+		grade_per_move[Move(it->first.row - 1, it->first.col - 1)]
+					   = bestOpponentMove(cpu_soldiers, user_soldiers);
+		/* After we found the best move that user can do we insert this grade to the map of grades
+		 * And now we can clear the soldiers vector and moves map and board
+		 * of the game to pre status of the board, cause we didnt actually made a move
+		 */
 		soldiers_.clear();
 		moves_.clear();
 		gaming_board_->resetAllValues();
+		/*
+		 * Recover the board to state before the changing
+		 */
 		for (unsigned int i = 0; i < temp_soldiers.size(); i++) {
 			gaming_board_->setValue(temp_soldiers[i].row, temp_soldiers[i].col,
 			temp_board->getValue(temp_soldiers[i].row, temp_soldiers[i].col));
@@ -61,15 +76,18 @@ Logic::Move Logic::minMaxAlgorithm(char opponent, int opponent_soldiers, char cu
 		}
 		destroyed_enemies_= 0;
 	}
-	moves_.insert(temp_map.begin(), temp_map.end()); //recover moves map
-	delete temp_board; //destruc the board we used
+	//recover moves map
+	moves_.insert(temp_map.begin(), temp_map.end());
+	//destruct the board we used
+	delete temp_board;
 	/*****From here on we will fnd the minimum grade and returns this move*****/
 	int minimum = -1;
 	map<Move, int>::const_iterator it;
 	for (it = grade_per_move.begin(); it != grade_per_move.end(); it++) {
 		if (it == grade_per_move.begin()) {
 			minimum = grade_per_move.find(Move(it->first.row, it->first.col))->second;
-		} else { //if minimun is bigger than next grade, so next grade will become minimum
+		//if minimun is bigger than next grade, so next grade will become minimum
+		} else {
 			if (minimum > grade_per_move.find(Move(it->first.row, it->first.col))->second) {
 				minimum = grade_per_move.find(Move(it->first.row, it->first.col))->second;
 			}
@@ -88,10 +106,12 @@ int Logic::bestOpponentMove(int cpu_soldiers, int user_soldiers) {
 	int grade_max = -1;
 	int count_destroyed = 0;
 	for (MoveArrayMap::const_iterator it = moves_.begin(); it != moves_.end(); it++) {
-		set<Move> enemies = moves_.find(it->first)->second; //iterate over the posssible moves of the user
+		//iterate over the posssible moves of the user
+		set<Move> enemies = moves_.find(it->first)->second;
 		for (set<Move>::const_iterator it_s = enemies.begin(); it_s != enemies.end(); it_s++) {
 			count_destroyed++; //count the destroyed cpu enemies
-		} /*check if this move is the best move that user can do.*/
+		}
+		/*check if this move is the best move that user can do.*/
 		if (grade_max < (user_soldiers + count_destroyed + 1) - (cpu_soldiers - count_destroyed)) {
 			grade_max = user_soldiers + count_destroyed + 1 - (cpu_soldiers - count_destroyed);
 		}
@@ -101,21 +121,25 @@ int Logic::bestOpponentMove(int cpu_soldiers, int user_soldiers) {
 }
 
 void Logic::possibleMove(char current, char opponent) {
-	for (unsigned int i = 0; i < soldiers_.size(); i++) { //we want to run only on soldiers that on the field
-		//and not all the board
-		if (gaming_board_->getValue(soldiers_[i].row, soldiers_[i].col) == current) { //if this cell is current
-			checkSurrounding(soldiers_[i].row, soldiers_[i].col, opponent); //calling the function to check the
+	//we want to run only on soldiers that on the field and not all the board
+	for (unsigned int i = 0; i < soldiers_.size(); i++) {
+		//if this cell is current
+		if (gaming_board_->getValue(soldiers_[i].row, soldiers_[i].col) == current) {
+			//calling the function to check the
 			//surrounding of the i,j cell
+			checkSurrounding(soldiers_[i].row, soldiers_[i].col, opponent);
 		}
 	}
 }
 
 void Logic::checkSurrounding(int i, int j, char opponent) {
-	set<Move> temp_moves; // will save all posible enemies line
+	//will save all posible enemies line
+	set<Move> temp_moves;
 	int temp_row = i;
 	//same checking for all the 8 checkings except of boundaries and direction of the check..
 	if (i > 1) { //up
-		while (temp_row - 1 > 0) { //iterativly go up
+		//iterativly go up
+		while (temp_row - 1 > 0) {
 			if (gaming_board_->getValue(temp_row - 1, j) == opponent) {
 				temp_moves.insert(Move(temp_row, j + 1));
 				temp_row--;
@@ -124,17 +148,20 @@ void Logic::checkSurrounding(int i, int j, char opponent) {
 			}
 		}
 		if (temp_row != i && gaming_board_->getValue(temp_row - 1, j) == ' ') {
-			if (moves_.find(Move(temp_row, j + 1)) != moves_.end()) { //if this move is already possible for other move
-				moves_[Move(temp_row, j + 1)].insert(temp_moves.begin(), temp_moves.end()); //combine both enemies set
+			//if this move is already possible for other move
+			if (moves_.find(Move(temp_row, j + 1)) != moves_.end()) {
+				//combine both enemies set
+				moves_[Move(temp_row, j + 1)].insert(temp_moves.begin(), temp_moves.end());
 			} else {
-				moves_[Move(temp_row, j + 1)] = temp_moves; //no such move yet so make it new
+				//no such move yet so make it new
+				moves_[Move(temp_row, j + 1)] = temp_moves;
 			}
 		}
 	}
 	temp_moves.clear();
 	int temp_col = j;
 	if (j > 1) { //left
-		while (temp_col - 1 > 0) { //iterativly go left
+		while (temp_col - 1 > 0) { //go left
 			if (gaming_board_->getValue(i, temp_col - 1) == opponent) {
 				temp_moves.insert(Move(i + 1, temp_col));
 				temp_col--;
@@ -289,7 +316,8 @@ bool Logic::isEmpty() const {
 
 void Logic::printMoves() const {
 	//Printing the possible move.
-	cout << "Your possible moves: "; //iterativly go over the keys of the map
+	cout << "Your possible moves: ";
+	//iterativly go over the keys of the map
 	for (MoveArrayMap::const_iterator it = moves_.begin(); it != moves_.end(); it++) {
 		if (it != moves_.begin()) { cout << ","; }
 		cout << "(" << it->first.row << "," << it->first.col << ")";
@@ -301,17 +329,20 @@ void Logic::printMoves() const {
 void Logic::finishMove(int row, int col, char current) {
 	//Change the value in row, col and change the enemy value.
 	gaming_board_->setValue(row - 1, col - 1, current);
-	set<Move> enemies = moves_.find(Move(row, col))->second; //destroy all the enemies the we set up before in
+	//destroy all the enemies the we set up before in
+	set<Move> enemies = moves_.find(Move(row, col))->second;
 	//the posibble moves. iterativly go over the enemies and destroy them
 	for (set<Move>::const_iterator it = enemies.begin(); it != enemies.end(); it++) {
 		destroyed_enemies_++;
 		gaming_board_->setValue(it->row - 1, it->col - 1, current);
 	}
-	gaming_board_->printBoard(); //printing the move
+	//printing the move
+	gaming_board_->printBoard();
 	cout << current << " played (" << row << "," << col << ")" << endl;
 	cout << endl;
-	soldiers_.push_back(Move(row - 1, col - 1)); //inserting this move as soldier on the field
+	//inserting this move as soldier on the field
 	//clear the moves.
+	soldiers_.push_back(Move(row - 1, col - 1));
 	moves_.clear();
 }
 
