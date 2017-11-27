@@ -8,7 +8,7 @@
 /**
  * Main of the ex3
  */
-int main1() {
+int main() {
 	Game reversi;
 	reversi.initGame(SIZE);
 	reversi.startGame();
