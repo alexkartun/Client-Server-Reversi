@@ -3,6 +3,7 @@
  */
 #include "Logic.h"
 #include "Console.h"
+#include "math.h"
 #include <algorithm>
 #include <iostream>
 #include <stdlib.h>
@@ -301,7 +302,20 @@ void Logic::checkSurrounding(int i, int j, char opponent) {
 	}
 }
 
-bool Logic::checkValidality(Move p) {
+bool Logic::inputNumericValidation(string str, int *num) {
+	unsigned int i;
+	*num = 0;
+	for(i=0; i<str.length(); i++) {
+		char c = str[i];
+		if (!isdigit(c)) {
+			return false;
+		}
+		(*num) += pow(10, str.length()-i-1)*(c-48);
+	}
+	return true;
+}
+
+bool Logic::isPossibleMoveValidality(Move p) {
 	for (unsigned int i = 0; i < moves_.size(); i++) {
 		if (moves_.find(p) != moves_.end()) {
 			return true;

@@ -3,6 +3,7 @@
  */
 #ifndef LOGIC_H_
 #define LOGIC_H_
+#include<string>
 #include <vector>
 #include <set>
 #include <map>
@@ -54,10 +55,15 @@ public:
      */
     void checkSurrounding(int, int, char);
     /**
-	 * Checking if the move that user want to make is validal. Compating to all the possible moves.
+	 * Checking if the input given is numeric. if true - return true and store the numeric value in *num.
+	 * Otherwise - return false
+	 */
+    bool inputNumericValidation(string str, int *num);
+    /**
+	 * Checking if the move that user want to make is valid. Comparing to all the possible moves.
 	 * Move - the move that user want to make
 	 */
-	bool checkValidality(Move);
+	bool isPossibleMoveValidality(Move);
 	/**
 	 * Checking if moves vector is empty after checking.
 	 */

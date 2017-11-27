@@ -2,6 +2,7 @@
  * User.cpp
  */
 #include "User.h"
+#include "Logic.h"
 #include <iostream>
 using namespace std;
 
@@ -20,6 +21,8 @@ void User::setPlayed(bool status) {
 }
 
 void User::makeMove(Player *cpu, Logic *logic) {
+	string validationRow, validationCol;
+	int chosenRow, chosenCol;
 	cout << value_ <<": It's your move." << endl;
 	logic->possibleMove(value_, cpu->getValue());
 	//If there is not possible moves for the player.
@@ -34,12 +37,12 @@ void User::makeMove(Player *cpu, Logic *logic) {
 	//loop that checking the validality of the move the user want to make,
 	//will run till entered valid move
 	do {
-		getline(cin, input);
-		if (input.length() == 3 && isdigit(input.at(0)) && input.at(1) == ' ' && isdigit(input.at(2))) {
+		cin >> validationRow >> validationCol;
+		//checks if the row and column inputs are numeric arguments
+		if (logic->inputNumericValidation(validationRow, &chosenRow) &&
+				logic->inputNumericValidation(validationCol, &chosenCol)) {
 			//convert from ascii to int
-			row = input[0] - 48;
-			col = input[2] - 48;
-			if (logic->checkValidality(Logic::Move(row, col))) {
+			if (logic->isPossibleMoveValidality(Logic::Move(chosenRow, chosenCol))) {
 				break;
 			} else {
 				cout << "Please enter your move row,col again:";
