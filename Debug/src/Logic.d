@@ -1,10 +1,10 @@
-src/Logic.o: ../src/Logic.cpp \
- /home/ofir/Desktop/bug-free-waffle/include/Logic.h \
- /home/ofir/Desktop/bug-free-waffle/include/Board.h \
- /home/ofir/Desktop/bug-free-waffle/include/Console.h
+src/Logic.d: ../src/Logic.cpp \
+ /home/kartuna/workspace/GitProject/include/Logic.h \
+ /home/kartuna/workspace/GitProject/include/Board.h \
+ /home/kartuna/workspace/GitProject/include/Console.h
 
-/home/ofir/Desktop/bug-free-waffle/include/Logic.h:
+/home/kartuna/workspace/GitProject/include/Logic.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Console.h:
+/home/kartuna/workspace/GitProject/include/Console.h:

@@ -10,8 +10,9 @@
  */
 int main() {
 	Game reversi;
-	reversi.initGame(SIZE); //for this exc we will use define later we will get args from user.
+	reversi.initGame(SIZE);
 	reversi.startGame();
+	//run the loop till end of the game
 	while(reversi.getStatus()) {
 		reversi.playTurn();
 	}

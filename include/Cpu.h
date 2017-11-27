@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Logic.h"
 /**
- * Cpu derived player class.
+ * Cpu implements player class.
  */
 class Cpu: public Player {
 public:
@@ -19,9 +19,12 @@ public:
 	bool isPlayed() const;
 	void setPlayed(bool);
 private:
-	char value_; // value of the player
-	int count_soldiers_; //actual count of this player's soldiers on the field
-	bool played_; //booleab if played = true or false if dont have any move to make
+	//value of the player
+	char value_;
+	//actual count of this player's soldiers on the field
+	int count_soldiers_;
+	//boolean if played = true or false if dont have any move to make
+	bool played_;
 };
 
 #endif /* CPU_H_ */

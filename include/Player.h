@@ -3,6 +3,7 @@
  */
 #ifndef PLAYER_H_
 #define PLAYER_H_
+#define NUM_PLAYERS 2
 #include "Logic.h"
 /**
  * Interface player class.

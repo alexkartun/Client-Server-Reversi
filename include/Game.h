@@ -44,11 +44,16 @@ public:
 	 */
 	void passTurn();
 private:
-	Logic *logic_game_; //logic of the game will depends on the user choose
-	Player *current_; //cuurent player
-	Player *opponent_; //opponent player
-	bool passed_; //if player dont have possible move this bollean become true.
-	bool running_; //the running bolean if the game, if this boolean become false game is over
+	//logic of the game will depends on the user choose
+	Logic *logic_game_;
+	//curent player
+	Player *user_;
+	//opponent player
+	Player *cpu_;
+	//if player dont have possible move this bollean become true.
+	bool passed_;
+	//the running bolean if the game, if this boolean become false game is over
+	bool running_;
 };
 
 #endif /* GAME_H_ */

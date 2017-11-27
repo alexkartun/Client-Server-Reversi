@@ -7,14 +7,16 @@ using namespace std;
 
 User::User(char player) {
 	value_ = player;
-	count_soldiers_ = 2;
+	count_soldiers_ = NUM_PLAYERS;
 	played_ = false;
 }
+
 User::User(char player, int soldiers) {
 	value_ = player;
 	count_soldiers_ = soldiers;
 	played_= false;
 }
+
 bool User::isPlayed() const {
 	return played_;
 }
@@ -23,9 +25,9 @@ void User::setPlayed(bool status) {
 	played_ = status;
 }
 
-void User::makeMove(Player *opponent, Logic *logic) {
+void User::makeMove(Player *cpu, Logic *logic) {
 	cout << value_ <<": It's your move." << endl;
-	logic->possibleMove(value_, opponent->getValue());
+	logic->possibleMove(value_, cpu->getValue());
 	//If there is not possible moves for the player.
 	if (logic->isEmpty()) {
 		return;
@@ -35,10 +37,13 @@ void User::makeMove(Player *opponent, Logic *logic) {
 	cout << "Please enter your move row,col:";
 	string input;
 	int row, col;
-	do { //loop that checking the validality of the move the user want to make, will run till entered valid move
+	//loop that checking the validality of the move the user want to make,
+	//will run till entered valid move
+	do {
 		getline(cin, input);
 		if (input.length() == 3 && isdigit(input.at(0)) && input.at(1) == ' ' && isdigit(input.at(2))) {
-			row = input[0] - 48; //convert from ascii to int
+			//convert from ascii to int
+			row = input[0] - 48;
 			col = input[2] - 48;
 			if (logic->checkValidality(Logic::Move(row, col))) {
 				break;
@@ -50,11 +55,16 @@ void User::makeMove(Player *opponent, Logic *logic) {
 		}
 	} while(true);
 	cout << endl;
-	logic->finishMove(row, col, value_); //finish the move of this player
-	count_soldiers_ += logic->getDestroyed() + 1; //calculating count of this player
-	opponent->setSoldiers(opponent->getSoldiers() - logic->getDestroyed()); //of other
-	logic->clearDestroyed(); // reset destroyed variable to = 0
-	played_ = true; //user played actual move
+	//finish the move of this player
+	logic->finishMove(row, col, value_);
+	//calculating count user
+	count_soldiers_ += logic->getDestroyed() + 1;
+	//of other
+	cpu->setSoldiers(cpu->getSoldiers() - logic->getDestroyed());
+	// reset destroyed variable to = 0
+	logic->clearDestroyed();
+	//user played actual move
+	played_ = true;
 }
 
 unsigned int User::getSoldiers() const {

@@ -1,7 +1,7 @@
-src/Console.o: ../src/Console.cpp \
- /home/ofir/Desktop/bug-free-waffle/include/Console.h \
- /home/ofir/Desktop/bug-free-waffle/include/Board.h
+src/Console.d: ../src/Console.cpp \
+ /home/kartuna/workspace/GitProject/include/Console.h \
+ /home/kartuna/workspace/GitProject/include/Board.h
 
-/home/ofir/Desktop/bug-free-waffle/include/Console.h:
+/home/kartuna/workspace/GitProject/include/Console.h:
 
-/home/ofir/Desktop/bug-free-waffle/include/Board.h:
+/home/kartuna/workspace/GitProject/include/Board.h:

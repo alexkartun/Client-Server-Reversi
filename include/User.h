@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Logic.h"
 /**
- * Header of class user that derives from Player.
+ * User implements player class.
  */
 class User: public Player {
 public:
