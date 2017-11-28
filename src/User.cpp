@@ -1,7 +1,5 @@
 /*
  * User.cpp
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #include "User.h"
 #include "Logic.h"

@@ -1,12 +1,11 @@
 /*
  * Game.cpp
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #include <iostream>
 #include "Game.h"
 #include "User.h"
 #include "Cpu.h"
+#include <stdexcept>
 using namespace std;
 
 Game::Game() {

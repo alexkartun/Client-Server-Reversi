@@ -1,7 +1,5 @@
 /*
  * Logic.h
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #ifndef LOGIC_H_
 #define LOGIC_H_

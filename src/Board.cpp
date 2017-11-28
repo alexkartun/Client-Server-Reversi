@@ -1,7 +1,5 @@
 /*
  * Board.cpp
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #include "Board.h"
 #include <stdexcept>

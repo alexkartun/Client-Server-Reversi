@@ -1,7 +1,5 @@
 /*
  * Logic.cpp
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #include "Logic.h"
 #include "Console.h"

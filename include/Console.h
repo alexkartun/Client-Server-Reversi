@@ -1,7 +1,5 @@
 /*
  * Console.h
- *	Alex Kartun & Ofir Sharon
- *	324429216   & 204717664
  */
 #ifndef CONSOLE_H_
 #define CONSOLE_H_
