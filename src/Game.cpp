@@ -8,9 +8,14 @@
 #include <stdexcept>
 using namespace std;
 
-Game::Game() {
+Game::Game(string opponent) {
 	user_ = new User('X');
-	cpu_ = new Cpu('O');
+	//setting the opponent player user or cpu
+	if (opponent.compare("user") == 0) {
+		opponent_ = new User('O');
+	} else {
+		opponent_ = new Cpu('O');
+	}
 	running_ = false;
 	passed_ = false;
 	logic_game_ = NULL;
@@ -18,7 +23,7 @@ Game::Game() {
 
 Game::~Game() {
 	delete user_;
-	delete cpu_;
+	delete opponent_;
 	delete logic_game_;
 }
 
@@ -41,9 +46,9 @@ bool Game::getStatus() const {
 }
 
 void Game::endGame() {
-	if (cpu_->getSoldiers() > user_->getSoldiers()) {
-		cout << endl << "White player win with " << cpu_->getSoldiers() << " soldiers!" << endl;
-	} else if (user_->getSoldiers() > cpu_->getSoldiers()){
+	if (opponent_->getSoldiers() > user_->getSoldiers()) {
+		cout << endl << "White player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
+	} else if (user_->getSoldiers() > opponent_->getSoldiers()){
 		cout << endl << "Black player win with " << user_->getSoldiers() << " soldiers!" << endl;
 	} else {
 		cout << endl <<  "Draw!" << endl;
@@ -65,10 +70,10 @@ void Game::passTurn() {
 void Game::playTurn() {
 	if (user_->isPlayed()) {
 		//opponent turn
-		cpu_->makeMove(user_, logic_game_);
+		opponent_->makeMove(user_, logic_game_);
 		user_->setPlayed(false);
-		if (!cpu_->isPlayed()) {
-			cpu_->setPlayed(true);
+		if (!opponent_->isPlayed()) {
+			opponent_->setPlayed(true);
 			passTurn();
 		} else {
 			passed_ = false;
@@ -76,9 +81,9 @@ void Game::playTurn() {
 	/*same for current and opponent*/
 	} else {
 		//current turn
-		user_->makeMove(cpu_, logic_game_);
+		user_->makeMove(opponent_, logic_game_);
 		//after current turn, opponent status should be not playe
-		cpu_->setPlayed(false);
+		opponent_->setPlayed(false);
 		//if played so passed is should we false, otherwise it will be true
 		if (!user_->isPlayed()) {
 			//and will go to passed function

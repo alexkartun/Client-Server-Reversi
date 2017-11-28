@@ -13,7 +13,7 @@ public:
 	/**
 	 * Constructor.
 	 */
-	Game();
+	Game(string);
 	/**
 	 * Destructor.
 	 */
@@ -49,7 +49,7 @@ private:
 	//curent player
 	Player *user_;
 	//opponent player
-	Player *cpu_;
+	Player *opponent_;
 	//if player dont have possible move this bollean become true.
 	bool passed_;
 	//the running bolean if the game, if this boolean become false game is over

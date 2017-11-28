@@ -6,13 +6,13 @@
 using namespace std;
 
 TEST(GameTest, HandlesInvalidArgument) {
-	Game reversi;
+	Game reversi("cpu");
 	EXPECT_THROW(reversi.initGame(0), invalid_argument);
 	EXPECT_THROW(reversi.initGame(-5), invalid_argument);
 }
 
 TEST(GameTest, HandlesStopGame) {
-	Game reversi;
+	Game reversi("cpu");
 	reversi.initGame(2);
 	reversi.startGame();
 	reversi.playTurn();
