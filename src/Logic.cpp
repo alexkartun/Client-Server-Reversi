@@ -1,5 +1,7 @@
 /*
  * Logic.cpp
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #include "Logic.h"
 #include "Console.h"
@@ -305,12 +307,12 @@ void Logic::checkSurrounding(int i, int j, char opponent) {
 bool Logic::inputNumericValidation(string str, int *num) {
 	unsigned int i;
 	*num = 0;
-	for(i=0; i<str.length(); i++) {
+	for(i = 0; i < str.length(); i++) {
 		char c = str[i];
 		if (!isdigit(c)) {
 			return false;
 		}
-		(*num) += pow(10, str.length()-i-1)*(c-48);
+		(*num) += pow(10, str.length()-i-1) * (c - 48);
 	}
 	return true;
 }

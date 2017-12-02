@@ -1,9 +1,10 @@
 /*
  * test_logic.cpp
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #include "gtest/gtest.h"
 #include "Logic.h"
-
 using namespace std;
 
 TEST(LogicTest, HandlesDestroyesEnemies) {
@@ -11,6 +12,13 @@ TEST(LogicTest, HandlesDestroyesEnemies) {
 	logic.possibleMove('X', 'O');
 	logic.finishMove(4, 3, 'X');
 	EXPECT_EQ(logic.getDestroyed(), 1);
+}
+
+TEST(LogicTest, HandlesInput) {
+	Logic logic(8);
+	int num;
+	EXPECT_EQ(logic.inputNumericValidation("10", &num), true);
+	EXPECT_EQ(logic.inputNumericValidation("hh", &num), false);
 }
 
 TEST(LogicTest, HandlesMinMaxValue) {

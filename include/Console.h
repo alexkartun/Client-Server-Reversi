@@ -1,8 +1,7 @@
 /*
  * Console.h
- *
- *  Created on: Nov 7, 2017
- *      Author: kartuna
+ *	Alex Kartun & Ofir Sharon
+ *	324429216   & 204717664
  */
 #ifndef CONSOLE_H_
 #define CONSOLE_H_
