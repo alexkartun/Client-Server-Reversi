@@ -6,9 +6,10 @@
 #include "User.h"
 #include "Cpu.h"
 #include <stdexcept>
+#include <string.h>
 using namespace std;
 
-Game::Game(int mod) {
+Game::Game(int mod, int size) {
 	user_ = new User('X');
 	if (mod == 1) {
 		opponent_ = new User('O');
@@ -17,7 +18,20 @@ Game::Game(int mod) {
 	}
 	running_ = false;
 	passed_ = false;
-	logic_game_ = NULL;
+	initGame(size);
+}
+
+Game::Game(int size, char *player) {
+	if (strcmp(player, "1") == 0) {
+		user_ = new User('X');
+		opponent_ = new User('O');
+	} else {
+		user_ = new User('O');
+		opponent_ = new User('X');
+	}
+	running_ = false;
+	passed_ = false;
+	initGame(size);
 }
 
 Game::~Game() {
@@ -45,10 +59,21 @@ bool Game::getStatus() const {
 }
 
 void Game::endGame() {
+	string opponent, user;
+	if (opponent_->getValue() == 'X') {
+		opponent = "Black";
+	} else {
+		opponent = "White";
+	}
+	if (user_->getValue() == 'X') {
+		user = "Black";
+	} else {
+		user = "White";
+	}
 	if (opponent_->getSoldiers() > user_->getSoldiers()) {
-		cout << endl << "White player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
+		cout << endl << opponent << " player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
 	} else if (user_->getSoldiers() > opponent_->getSoldiers()){
-		cout << endl << "Black player win with " << user_->getSoldiers() << " soldiers!" << endl;
+		cout << endl << user << " player win with " << user_->getSoldiers() << " soldiers!" << endl;
 	} else {
 		cout << endl <<  "Draw!" << endl;
 	}
@@ -66,7 +91,37 @@ void Game::passTurn() {
 	passed_ = true;
 }
 
-void Game::playTurn() {
+void Game::playRemoteTurn(char *move) {
+	if (strcmp(move, "NoMove") != 0) {
+		opponent_->makeRemoteMove(user_, logic_game_, move);
+		passed_ = false;
+	} else {
+		cout << "Opponent don't have move." << endl << endl;
+		if (passed_) {
+			cout << "No possible moves for both players. Game is Over!" << endl;
+			running_ = false;
+			return;
+		}
+		passed_ = true;
+	}
+}
+
+void Game::playLocalTurn(char *move) {
+	user_->makeLocalMove(opponent_, logic_game_, move);
+	if (strcmp(move, "NoMove") == 0) {
+		if (passed_) {
+			cout << "No possible moves for both players. Game is Over!" << endl;
+			running_ = false;
+			return;
+		}
+		cout << "No possible moves. Play passes back to other player." << endl;
+		passed_ = true;
+	} else {
+		passed_ = false;
+	}
+}
+
+void Game::makeTurn() {
 	if (user_->isPlayed()) {
 		//opponent turn
 		opponent_->makeMove(user_, logic_game_);

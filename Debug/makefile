@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include server/src/subdir.mk
 -include client/test/subdir.mk
 -include client/src/subdir.mk
 -include client/gtest_src/gtest/subdir.mk

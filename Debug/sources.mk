@@ -23,6 +23,7 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+server/src \
 client/test \
 client/src \
 client/gtest_src/gtest \

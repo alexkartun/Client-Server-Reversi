@@ -5,9 +5,10 @@
 #include "Game.h"
 #include <iostream>
 #include <stdlib.h>
-#define SIZE 8
+#include <string.h>
+#define SIZE 4
+#define LEN 256
 using namespace std;
-
 int main() {
 	cout << "Welcome to Reversi!" << endl << endl;
 	string str_input;
@@ -38,27 +39,60 @@ int main() {
 	// If input is 1 or 2 so we dont need to run the game via server. So we will do it regular like we did
 	// on previous exercises.
 	if (input == 1 || input == 2) {
-		Game reversi(input);
-		reversi.initGame(SIZE);
+		Game reversi(input, SIZE);
 		reversi.startGame();
 		//run the loop till end of the game
 		while(reversi.getStatus()) {
-			reversi.playTurn();
+			reversi.makeTurn();
 		}
 		reversi.endGame();
 	// Input is 3 so want to play against remote player. So we need to open client.
 	} else {
-		Client client("127.0.0.1", 5000);
+		Client client("127.0.0.1", 8000);
+		char buffer[LEN];
+		char player[LEN];
 		try {
 			client.connectToServer();
 		} catch (const char *msg) {
 			cout << "Failed to connect to server. Reason: " << msg << endl;
 			exit(-1);
 		}
-		string player;
-		while (true) {
-			//player = client.whichPlayer();
+		client.settingPLayer(player, LEN);
+		Game reversi(SIZE, player);
+		//run the loop till end of the game
+		reversi.startGame();
+		if (strcmp(player, "1") == 0) {
+			while (reversi.getStatus()) {
+				reversi.playLocalTurn(buffer);
+				if (!reversi.getStatus()) {
+					break;
+				}
+				client.sendExercise(buffer, LEN);
+				client.waitForMove(buffer, LEN);
+				if (strcmp(buffer, "End") == 0) {
+					cout << "No possible moves for both players. Game is Over!" << endl;
+					break;
+				}
+				reversi.playRemoteTurn(buffer);
+			}
+		} else {
+			while(reversi.getStatus()) {
+				client.waitForMove(buffer, LEN);
+				if (strcmp(buffer, "End") == 0) {
+					cout << "No possible moves for both players. Game is Over!" << endl;
+					break;
+				}
+				reversi.playRemoteTurn(buffer);
+				reversi.playLocalTurn(buffer);
+				if (!reversi.getStatus()) {
+					break;
+				}
+				client.sendExercise(buffer, LEN);
+			}
 		}
+		reversi.endGame();
+		strcpy(buffer, "End");
+		client.stop(buffer, LEN);
 	}
 	return 0;
 }

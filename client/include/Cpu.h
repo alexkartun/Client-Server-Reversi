@@ -11,12 +11,14 @@
 class Cpu: public Player {
 public:
 	Cpu(char);
-	void makeMove(Player *, Logic *);
+	Logic::Move makeMove(Player *, Logic *);
 	unsigned int getSoldiers() const;
 	char getValue() const;
 	void setSoldiers(int);
 	bool isPlayed() const;
 	void setPlayed(bool);
+	void makeRemoteMove(Player *, Logic *, char *) { }
+	void makeLocalMove(Player *, Logic *, char *) { }
 private:
 	//value of the player
 	char value_;

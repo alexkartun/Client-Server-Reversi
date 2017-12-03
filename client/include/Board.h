@@ -3,6 +3,8 @@
  */
 #ifndef BOARD_H_
 #define BOARD_H_
+#include <string>
+using namespace std;
 /**
  * Header of board Abstract class.
  */
@@ -41,6 +43,10 @@ public:
      * Reset all values of the board to ' '.
      */
     void resetAllValues();
+    /**
+     * Return the string representation of board.
+     */
+    virtual string toString() const = 0;
 protected:
     //actual size of the game
     int size_;

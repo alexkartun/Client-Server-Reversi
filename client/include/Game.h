@@ -12,9 +12,13 @@
 class Game {
 public:
 	/**
-	 * Constructor.
+	 * Constructor for remote game.
 	 */
-	Game(int);
+	Game(int size, char *player);
+	/**
+	 * Constructor for local game
+	 */
+	Game(int, int);
 	/**
 	 * Destructor.
 	 */
@@ -32,10 +36,15 @@ public:
 	 */
 	void endGame();
 	/**
-	 * Make move depends on the current player.
+	 * Play remote turn.
+	 */
+	void playRemoteTurn(char *move);
+	void playLocalTurn(char *move);
+	/**
+	 * Make move depends on the current player. Local playing.
 	 * If got no move passing to opponent, if opponent as well dont have move the game is over.
 	 */
-	void playTurn();
+	void makeTurn();
 	/**
 	 * Returning the actual state of the game, {true or false}.
 	 */

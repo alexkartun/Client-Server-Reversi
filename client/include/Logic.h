@@ -4,6 +4,7 @@
 #ifndef LOGIC_H_
 #define LOGIC_H_
 #include <string>
+#include <sstream>
 #include <vector>
 #include <set>
 #include <map>
@@ -28,6 +29,16 @@ public:
 		}
 		bool operator == (const Move &p) const {
 			return row == p.row && col == p.col;
+		}
+		string toString() const {
+			string to_string = "";
+			stringstream ss;
+			ss << row;
+			to_string += ss.str() + ", ";
+			ss.str("");
+			ss << col;
+			to_string += ss.str();
+			return to_string;
 		}
 	};
 	// making other typedef of the map for easily using
@@ -103,6 +114,10 @@ public:
      * Returns the minnimum graded move of the best opponent moves.
      */
     Move minMaxAlgorithm(char, int, char, int);
+    /**
+     * Return string represantation of possible moves
+     */
+    string toString() const;
 protected:
     MoveArrayMap moves_;
     vector<Move> soldiers_; //list of all the soldiers on the field

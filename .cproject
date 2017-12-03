@@ -50,16 +50,40 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1708228153.2058919960" name="/" resourcePath="server/src">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.debug.1198532682" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.debug" unusedChildren="">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1026259004" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.1857324169">
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.152511640" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.409405048" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.28311243">
+								<option id="gnu.cpp.compiler.option.include.paths.131766630" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/server/include}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1900115180" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.2118357237" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker.1158040240"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.264235601" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker.1061913704"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.527992630" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver.259276149"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.929532284" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.473313399">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1126621756" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1708228153.1360755000" name="/" resourcePath="client/test">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.debug.2098772839" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.debug" unusedChildren="">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1275273657" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.1857324169">
+								<option id="gnu.c.compiler.option.include.paths.690077269" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/gtest_src"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/include"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.332956199" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.979045892" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.28311243">
 								<option id="gnu.cpp.compiler.option.include.paths.587025136" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/client/gtest_src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/client/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/client/gtest_src}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1964490542" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -67,6 +91,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1537027313" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker.1061913704"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.1829109366" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver.259276149"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.1577791986" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.473313399">
+								<option id="gnu.both.asm.option.include.paths.1717500116" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/gtest_src"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/include"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1467337757" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -77,7 +105,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1657351283" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.1857324169">
 								<option id="gnu.c.compiler.option.include.paths.212330647" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/kartuna/workspace/GitProject/GitProject/GitProject/client/include"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GitProject/GitProject/client/include}&quot;"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.647157299" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -93,7 +121,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.1830885822" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.473313399">
 								<option id="gnu.both.asm.option.include.paths.2030729224" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/kartuna/workspace/GitProject/GitProject/GitProject/client/include"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GitProject/GitProject/client/include}&quot;"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1240933472" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -105,7 +133,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.541293390" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.1857324169">
 								<option id="gnu.c.compiler.option.include.paths.477675903" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/kartuna/workspace/GitProject/GitProject/GitProject/client/gtest_src"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GitProject/GitProject/client/gtest_src}&quot;"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/gtest_src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.2120720888" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -121,7 +149,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.1086547426" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.473313399">
 								<option id="gnu.both.asm.option.include.paths.1058902700" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/kartuna/workspace/GitProject/GitProject/GitProject/client/gtest_src"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GitProject/GitProject/client/gtest_src}&quot;"/>
+									<listOptionValue builtIn="false" value="../GitProject/GitProject/client/gtest_src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.510850798" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -205,4 +233,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

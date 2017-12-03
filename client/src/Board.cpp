@@ -3,7 +3,6 @@
  */
 #include "Board.h"
 #include <stdexcept>
-using namespace std;
 
 Board::Board(int size_board) {
 	size_ = size_board;

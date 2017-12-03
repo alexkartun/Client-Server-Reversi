@@ -377,6 +377,17 @@ void Logic::printMoves() const {
 	cout << endl;
 }
 
+string Logic::toString() const {
+	string output = "";
+	output += "Your possible moves: ";
+	for (MoveArrayMap::const_iterator it = moves_.begin(); it != moves_.end(); it++) {
+		if (it != moves_.begin()) { output += ","; }
+			output += it->first.toString();
+	}
+	output += "\n\n";
+	return output;
+}
+
 void Logic::finishMove(int row, int col, char current) {
 	//Change the value in row, col and change the enemy value.
 	gaming_board_->setValue(row - 1, col - 1, current);
@@ -388,9 +399,8 @@ void Logic::finishMove(int row, int col, char current) {
 		gaming_board_->setValue(it->row - 1, it->col - 1, current);
 	}
 	//printing the move
+	cout << "Current Board:" << endl << endl;
 	gaming_board_->printBoard();
-	cout << current << " played (" << row << "," << col << ")" << endl;
-	cout << endl;
 	//inserting this move as soldier on the field
 	//clear the moves.
 	soldiers_.push_back(Move(row - 1, col - 1));

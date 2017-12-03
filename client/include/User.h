@@ -11,7 +11,9 @@
 class User: public Player {
 public:
 	User(char);
-	void makeMove(Player *, Logic *);
+	Logic::Move makeMove(Player *, Logic *);
+	void makeRemoteMove(Player *, Logic *, char *);
+	void makeLocalMove(Player *, Logic *, char *);
 	unsigned int getSoldiers() const;
 	char getValue() const;
 	void setSoldiers(int);
