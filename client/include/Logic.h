@@ -3,44 +3,17 @@
  */
 #ifndef LOGIC_H_
 #define LOGIC_H_
-#include <string>
-#include <sstream>
 #include <vector>
 #include <set>
 #include <map>
 #include "Board.h"
+#include "Move.h"
 using namespace std;
 /**
  * Class logic. Calculating moves of the players.
  */
 class Logic {
 public:
-	/**
-	 * Inner struct move for simple saving data.
-	 */
-	struct Move {
-		int row, col;
-		Move(int row, int col): row(row), col(col) { }
-		Move(): row(1), col(-1) { }
-		bool operator < (const Move &p) const {
-			if (row < p.row) { return true; }
-			if (row == p.row) { if (col < p.col) { return true; } }
-			return false;
-		}
-		bool operator == (const Move &p) const {
-			return row == p.row && col == p.col;
-		}
-		string toString() const {
-			string to_string = "";
-			stringstream ss;
-			ss << row;
-			to_string += ss.str() + ", ";
-			ss.str("");
-			ss << col;
-			to_string += ss.str();
-			return to_string;
-		}
-	};
 	// making other typedef of the map for easily using
 	typedef map<Move, set<Move> > MoveArrayMap;
 	/**
@@ -51,12 +24,6 @@ public:
 	 * Destructor.
 	 */
 	~Logic();
-	/**
-	 * Checking if the input given is numeric. if true - return true and store the numeric value in *row
-	 * and *col.
-	 * Otherwise - return false
-	 */
-	bool inputValdiation(string input, int *row, int *col);
 	/**
 	 * Search for all possible moves.
 	 */
@@ -89,20 +56,13 @@ public:
 	 * reseting the moves and adding the move we did
 	 * to the array
 	 */
-	void finishMove(int, int, char);
-	/**
-	 * Returning the board.
-	 */
-	Board* getBoard() const;
+	void finishMove(int, int, char, int *, int *);
+	Board *getBoard() { return gaming_board_; }
     /**
 	 * Returning the number of destroyed enemies after the algorithm for calulating the count
 	 * of each player.
 	 */
     unsigned int getDestroyed();
-    /**
-	 * Reseting the destroyed enemies variable to 0.
-	 */
-    void clearDestroyed();
     /**
      * Grading the best move for the opponent.
      * Return the max grade.
@@ -117,12 +77,14 @@ public:
     /**
      * Return string represantation of possible moves
      */
-    string toString() const;
+    string getSelectedMove() const;
 protected:
+    string selectedMove_;
     MoveArrayMap moves_;
-    vector<Move> soldiers_; //list of all the soldiers on the field
+    //list of all the soldiers on the field
+    vector<Move> soldiers_;
     unsigned int destroyed_enemies_;
-    Board *gaming_board_; //gaming board
+    Board *gaming_board_;
 };
 
 #endif /* LOGIC_H_ */

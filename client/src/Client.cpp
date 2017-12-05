@@ -51,51 +51,35 @@ void Client::connectToServer() {
 	cout << "Connected to server" << endl << endl;
 }
 
-void Client::settingPLayer(char *buffer, int len) const {
-	int n;
-	n = read(clientSocket, buffer, len);
-	if (n == -1) {
-		cout << "Error reading from server." << endl;
-	}
-	// Read from server if no data send so we want to wait
-	if (strcmp(buffer, "first") == 0) {
-		cout << "Waiting for other player to join..." << endl << endl;
-	}
-	// Read from server if no data send so we want to wait
-	n = read(clientSocket, buffer, len);
-	if (n == -1) {
-		cout << "Error reading from server." << endl;
-	}
-}
-
 void Client::waitForMove(char *buffer, int len) {
-	int n;
-	// Wait for data from server
-	n = read(clientSocket, buffer, len);
+	int n = read(clientSocket, buffer, len);
 	if (n == -1) {
-		cout << "Error on reading from server." << endl;
+		throw "Error on reading from server.";
 	}
-	if (strcmp(buffer, "End") == 0) {
-		return;
-	}
-	if (strcmp(buffer, "wait") == 0) {
-		cout << "Waiting for other player to make move." << endl;
+	if (strcmp(buffer,"first") == 0) {
+		cout << "Waiting for other player to join..." << endl << endl;
 		n = read(clientSocket, buffer, len);
 		if (n == -1) {
-			cout << "Error on reading from server." << endl;
+			throw "Error on reading from server.";
+		}
+	}
+	if (strcmp(buffer,"wait") == 0) {
+		cout << "Waiting for other player to make move..." << endl << endl;
+		n = read(clientSocket, buffer, len);
+		if (n == -1) {
+			throw "Error on reading from server.";
 		}
 	}
 }
 
-void Client::stop(char *buffer, int len) {
-	sendExercise(buffer, len);
-	close(clientSocket);
-}
-
 void Client::sendExercise(char *buffer, int len) {
-	// Write move X, Y to the server
+	// Write move X, Y to the server or NoMove or End
 	int n = write(clientSocket, buffer, len);
 	if (n == -1) {
 		throw "Error on writing into the server";
 	}
+}
+
+void Client::closeClient() {
+	close(clientSocket);
 }

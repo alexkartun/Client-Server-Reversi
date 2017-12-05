@@ -10,14 +10,16 @@ using namespace std;
 class Server {
 public:
 	Server(int port);
+	void open();
 	void start();
-	void stop();
+	void closeServer();
 
 private:
 	int port;
 	int serverSocket;
-
-	void handleClient(int clientSocket, char *);
+	void runProcess(int socket_1, int socket_2);
+	void readFromClient(int clientSocket, char *buffer);
+	void writeToClient(int clientSocket, char *buffer);
 };
 
 #endif /* SERVER_H_ */

@@ -19,27 +19,24 @@ void Cpu::setPlayed(bool status) {
 	played_ = status;
 }
 
-Logic::Move Cpu::makeMove(Player *opponent, Logic *logic) {
+void Cpu::makeMove(Player *opponent, Logic *logic) {
 	logic->possibleMove(value_, opponent->getValue());
 	//if there is not possible moves for the player just return
 	if (logic->isEmpty()) {
-		return Logic::Move(-1, -1);
+		return;
 	}
 	//cpu make best move for him via min-max algorithm
-	Logic::Move best_move = logic->minMaxAlgorithm(opponent->getValue(),
+	Move best_move = logic->minMaxAlgorithm(opponent->getValue(),
 			opponent->getSoldiers(), value_, count_soldiers_);
 	cout << endl;
-	//finish the move of this player
-	logic->finishMove(best_move.row + 1, best_move.col + 1, value_);
-	cout << value_ << " played (" << best_move.row + 1 << "," << best_move.col + 1 << ")" << endl << endl;
-	//calculating count of cpu
-	count_soldiers_ += logic->getDestroyed() + 1;
-	opponent->setSoldiers(opponent->getSoldiers() - logic->getDestroyed());
-	//reset destroyed variable to  0
-	logic->clearDestroyed();
-	//cpu did move
+	int curr_sold = count_soldiers_;
+	int opp_sold = opponent->getSoldiers();
+	logic->finishMove(best_move.row + 1, best_move.col + 1, value_, &curr_sold, &opp_sold);
+	count_soldiers_ = curr_sold;
+	opponent->setSoldiers(opp_sold);
+	cout << value_ << " played (" << best_move.row + 1 << ","
+			<< best_move.col + 1 << ")" << endl << endl;
 	played_ = true;
-	return best_move;
 }
 
 unsigned int Cpu::getSoldiers() const {

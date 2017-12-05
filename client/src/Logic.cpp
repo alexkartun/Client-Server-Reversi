@@ -22,7 +22,7 @@ Logic::~Logic() {
 	delete gaming_board_;
 }
 
-Logic::Move Logic::minMaxAlgorithm(char user, int user_count, char cpu, int cpu_count) {
+Move Logic::minMaxAlgorithm(char user, int user_count, char cpu, int cpu_count) {
 	 //temp map of moves we will iterate over
 	MoveArrayMap temp_map;
 	temp_map.insert(moves_.begin(), moves_.end());
@@ -302,56 +302,6 @@ void Logic::checkSurrounding(int i, int j, char opponent) {
 	}
 }
 
-bool Logic::inputValdiation(string input, int *row, int *col) {
-	// Check if the input is like '5 5'
-	if (input.length() == 3) {
-		if (isdigit(input.at(0)) && input.at(1) == ' ' && isdigit(input.at(2))){
-			*row = input.at(0) - 48;
-			*col = input.at(2) - 48;
-			return isPossibleMoveValidality(Move(*row, *col));
-		} else {
-			return false;
-		}
-	// Check if the input is like '10 5' or '5 10'
-	} else if (input.length() == 4) {
-		if (input.at(1) == ' ') {
-			if (isdigit(input.at(0)) && isdigit(input.at(2)) && isdigit(input.at(3))) {
-				*row = input.at(0) - 48;
-				*col = input.at(2) - 48;
-				*row *= 10 + input.at(3);
-				return isPossibleMoveValidality(Move(*row, *col));
-			} else {
-				return false;
-			}
-		} else if (input.at(2) == ' ') {
-			if (isdigit(input.at(0)) && isdigit(input.at(1)) && isdigit(input.at(3))) {
-				*row = input.at(0) - 48;
-				*row *= 10 + input.at(1);
-				*col = input.at(3) - 48;
-				return isPossibleMoveValidality(Move(*row, *col));
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	// Check if the input is like '10 10'
-	} else if (input.length() == 5) {
-		if (isdigit(input.at(0)) && isdigit(input.at(1))  && input.at(2) == ' ' &&
-				isdigit(input.at(3)) && isdigit(input.at(4))) {
-			*row = input.at(0) - 48;
-			*row *= 10 + input.at(1);
-			*col = input.at(3) - 48;
-			*col *= 10 + input.at(4);
-			return isPossibleMoveValidality(Move(*row, *col));
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-}
-
 bool Logic::isPossibleMoveValidality(Move p) {
 	for (unsigned int i = 0; i < moves_.size(); i++) {
 		if (moves_.find(p) != moves_.end()) {
@@ -377,22 +327,12 @@ void Logic::printMoves() const {
 	cout << endl;
 }
 
-string Logic::toString() const {
-	string output = "";
-	output += "Your possible moves: ";
-	for (MoveArrayMap::const_iterator it = moves_.begin(); it != moves_.end(); it++) {
-		if (it != moves_.begin()) { output += ","; }
-			output += it->first.toString();
-	}
-	output += "\n\n";
-	return output;
-}
-
-void Logic::finishMove(int row, int col, char current) {
+void Logic::finishMove(int row, int col, char current, int *currentSoldiers, int *opponentSoldiers) {
 	//Change the value in row, col and change the enemy value.
 	gaming_board_->setValue(row - 1, col - 1, current);
 	//destroy all the enemies the we set up before in
 	set<Move> enemies = moves_.find(Move(row, col))->second;
+	selectedMove_ = moves_.find(Move(row, col))->first.toString();
 	//the posibble moves. iterativly go over the enemies and destroy them
 	for (set<Move>::const_iterator it = enemies.begin(); it != enemies.end(); it++) {
 		destroyed_enemies_++;
@@ -405,16 +345,16 @@ void Logic::finishMove(int row, int col, char current) {
 	//clear the moves.
 	soldiers_.push_back(Move(row - 1, col - 1));
 	moves_.clear();
+	// Updating players soldiers.
+	*currentSoldiers += destroyed_enemies_ + 1;
+	*opponentSoldiers -= destroyed_enemies_;
+	destroyed_enemies_ = 0;
 }
 
-Board* Logic::getBoard() const {
-	return gaming_board_;
+string Logic::getSelectedMove() const {
+	return selectedMove_;
 }
 
 unsigned int Logic::getDestroyed() {
 	return destroyed_enemies_;
-}
-
-void Logic::clearDestroyed() {
-	destroyed_enemies_ = 0;
 }

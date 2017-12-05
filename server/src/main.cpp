@@ -9,11 +9,18 @@ using namespace std;
 int main12() {
 	Server server(8000);
 	try {
-		server.start();
+		server.open();
 	} catch (const char *msg) {
-		cout << "Cannot start server. Reason: " << msg << endl;
+		cout << "Error occurred. Reason: " << msg << endl;
 		exit(-1);
 	}
-	server.stop();
-	return 0;
+	try {
+		server.start();
+	} catch (const char *msg) {
+		cout << "Error occurred. Reason: " << msg << endl;
+		server.closeServer();
+		exit(-1);
+	}
+	server.closeServer();
+	exit(0);
 }

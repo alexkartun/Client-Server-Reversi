@@ -14,7 +14,7 @@ public:
 	/**
 	 * Constructor for remote game.
 	 */
-	Game(int size, char *player);
+	Game(int size, char player);
 	/**
 	 * Constructor for local game
 	 */
@@ -39,6 +39,9 @@ public:
 	 * Play remote turn.
 	 */
 	void playRemoteTurn(char *move);
+	/**
+	 * Play local move.
+	 */
 	void playLocalTurn(char *move);
 	/**
 	 * Make move depends on the current player. Local playing.

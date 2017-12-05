@@ -11,7 +11,7 @@
 class User: public Player {
 public:
 	User(char);
-	Logic::Move makeMove(Player *, Logic *);
+	void makeMove(Player *, Logic *);
 	void makeRemoteMove(Player *, Logic *, char *);
 	void makeLocalMove(Player *, Logic *, char *);
 	unsigned int getSoldiers() const;
@@ -19,6 +19,10 @@ public:
 	void setSoldiers(int);
 	bool isPlayed() const;
 	void setPlayed(bool);
+	/**
+	 * Check validation of user's input.
+	 */
+	bool checkValidation(string input);
 private:
 	char value_; // value of th player
 	int count_soldiers_; //actual count of this player's soldiers on the field

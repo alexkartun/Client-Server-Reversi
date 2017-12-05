@@ -10,7 +10,6 @@ class Console: public Board {
 public:
 	Console(int size): Board(size) { }
 	void printBoard() const;
-	string toString() const;
 };
 
 #endif /* CONSOLE_H_ */

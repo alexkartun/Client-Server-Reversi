@@ -18,13 +18,16 @@ public:
 	 * Make remote move.
 	 */
 	virtual void makeRemoteMove(Player *, Logic *, char *) = 0;
+	/**
+	 * Make local move.
+	 */
 	virtual void makeLocalMove(Player *, Logic *, char *) = 0;
 	/**
 	 * The player or cpu will make the move.
 	 * The algorithm of making moves located in logic for this our function getting as variable:
 	 * Player * = the referense to opponent player.
 	 */
-	virtual Logic::Move makeMove(Player *, Logic *) = 0;
+	virtual void makeMove(Player *, Logic *) = 0;
 	/**
 	 * Returning the number of soldiers of specific player on the board.
 	 */

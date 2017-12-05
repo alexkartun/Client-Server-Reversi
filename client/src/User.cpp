@@ -23,64 +23,73 @@ void User::setPlayed(bool status) {
 
 void User::makeRemoteMove(Player *opponent, Logic *logic, char *move) {
 	int row, col;
+	// Convert chars to int.
 	row = move[0] - 48;
 	col = move[3] - 48;
 	logic->possibleMove(value_, opponent->getValue());
-	logic->finishMove(row, col, value_);
-	count_soldiers_ += logic->getDestroyed() + 1;
-	opponent->setSoldiers(opponent->getSoldiers() - logic->getDestroyed());
-	logic->clearDestroyed();
-	cout << value_ << " played (" << row << "," << col << ")" << endl;
-	cout << endl;
-	played_ = true;
+	// Finish the move of this player and updating his soldiers and opponent's.
+	int curr_sold = count_soldiers_;
+	int opp_sold = opponent->getSoldiers();
+	logic->finishMove(row, col, value_, &curr_sold, &opp_sold);
+	count_soldiers_ = curr_sold;
+	opponent->setSoldiers(opp_sold);
+	cout << value_ << " played (" << row << "," << col << ")" << endl << endl;
 }
 
 void User::makeLocalMove(Player *opponent, Logic *logic, char *buffer) {
-	Logic::Move m = makeMove(opponent, logic);
-	if (m == Logic::Move(-1, -1)) {
+	makeMove(opponent, logic);
+	if (!played_) {
 		strcpy(buffer, "NoMove");
 	} else {
-		string str = m.toString();
+		string str = logic->getSelectedMove();
 		strcpy(buffer, str.c_str());
 	}
 }
 
-Logic::Move User::makeMove(Player *opponent, Logic *logic) {
+void User::makeMove(Player *opponent, Logic *logic) {
+	played_ = false;
 	cout << value_ <<": It's your move." << endl;
 	logic->possibleMove(value_, opponent->getValue());
 	//If there is not possible moves for the player.
 	if (logic->isEmpty()) {
-		return Logic::Move(-1, -1);
+		return;
 	}
 	logic->printMoves();
-	//Choosing the move that player want to make with validality checking
 	cout << "Please enter your move row,col:";
-	//loop that checking the validality of the move the user want to make,
-	//will run till entered valid move
+	// Input validation.
 	string input;
 	int row, col;
 	do {
 		getline(cin, input);
-		if (logic->inputValdiation(input, &row, &col)) {
+		if (checkValidation(input)) {
+			// Convert char do int.
+			row = input.at(0) - 48;
+			col = input.at(2) - 48;
 			break;
 		} else {
 			cout << "Please enter your move row,col again:";
 		}
 	} while(true);
 	cout << endl;
-	//finish the move of this player
-	logic->finishMove(row, col, value_);
+	// Finish the move of this player and updating his soldiers and opponent's.
+	int curr_sold = count_soldiers_;
+	int opp_sold = opponent->getSoldiers();
+	logic->finishMove(row, col, value_, &curr_sold, &opp_sold);
+	count_soldiers_ = curr_sold;
+	opponent->setSoldiers(opp_sold);
 	cout << value_ << " played (" << row << "," << col << ")" << endl << endl;
-	Logic::Move new_move(row, col);
-	//calculating count user
-	count_soldiers_ += logic->getDestroyed() + 1;
-	//of other
-	opponent->setSoldiers(opponent->getSoldiers() - logic->getDestroyed());
-	// reset destroyed variable to = 0
-	logic->clearDestroyed();
-	//user played actual move
 	played_ = true;
-	return new_move;
+}
+
+bool User::checkValidation(string input) {
+	if (input.length() == 3) {
+		if (isdigit(input.at(0)) && input.at(1) == ' ' && isdigit(input.at(2))){;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	return false;
 }
 
 unsigned int User::getSoldiers() const {

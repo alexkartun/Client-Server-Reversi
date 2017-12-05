@@ -11,7 +11,7 @@
 class Cpu: public Player {
 public:
 	Cpu(char);
-	Logic::Move makeMove(Player *, Logic *);
+	void makeMove(Player *, Logic *);
 	unsigned int getSoldiers() const;
 	char getValue() const;
 	void setSoldiers(int);

@@ -43,10 +43,6 @@ public:
      * Reset all values of the board to ' '.
      */
     void resetAllValues();
-    /**
-     * Return the string representation of board.
-     */
-    virtual string toString() const = 0;
 protected:
     //actual size of the game
     int size_;

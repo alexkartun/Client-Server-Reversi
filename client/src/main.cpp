@@ -8,91 +8,114 @@
 #include <string.h>
 #define SIZE 4
 #define LEN 256
+typedef enum result {failure, success} RESULT;
 using namespace std;
+
+RESULT checkInput(string);
+void runLocalGame(int);
+RESULT runRemoteGame();
+
 int main() {
 	cout << "Welcome to Reversi!" << endl << endl;
-	string str_input;
-	int input;
 	cout << "Choose an opponent type:" <<endl;
 	cout << "1. a human local player" <<endl;
 	cout << "2. an AI player" <<endl;
 	cout << "3. a remote player" <<endl;
-	// Choosing our mode.
+
+	// Choosing our mode and checking his validality.
+	string str_input;
+	int input;
 	do {
 		getline(cin, str_input);
-		if (str_input.length() == 1 && isdigit(str_input.at(0))) {
+		if (checkInput(str_input) == success) {
+			// Converting char to int
 			input = str_input.at(0) - 48;
-			if (input == 1) {
-				break;
-			} else if (input == 2) {
-				break;
-			} else if (input == 3) {
+			if (input == 1 || input == 2 || input == 3) {
 				break;
 			} else {
-				cout << "Wrong input." << endl;
+				cout << "Wrong input. Put input again!" << endl;
 			}
 		} else {
-			cout << "Wrong input." << endl;
+			cout << "Wrong input. Put input again!" << endl;
 		}
 	} while(true);
-	// After we choose whom we want to play we running the Game.
-	// If input is 1 or 2 so we dont need to run the game via server. So we will do it regular like we did
-	// on previous exercises.
-	if (input == 1 || input == 2) {
-		Game reversi(input, SIZE);
-		reversi.startGame();
-		//run the loop till end of the game
-		while(reversi.getStatus()) {
-			reversi.makeTurn();
-		}
-		reversi.endGame();
-	// Input is 3 so want to play against remote player. So we need to open client.
-	} else {
-		Client client("127.0.0.1", 8000);
-		char buffer[LEN];
-		char player[LEN];
-		try {
-			client.connectToServer();
-		} catch (const char *msg) {
-			cout << "Failed to connect to server. Reason: " << msg << endl;
+
+	switch (input) {
+	case 1:
+		runLocalGame(input);
+		break;
+	case 2:
+		runLocalGame(input);
+		break;
+	case 3:
+		if (runRemoteGame() == failure) {
 			exit(-1);
 		}
-		client.settingPLayer(player, LEN);
-		Game reversi(SIZE, player);
-		//run the loop till end of the game
-		reversi.startGame();
-		if (strcmp(player, "1") == 0) {
-			while (reversi.getStatus()) {
-				reversi.playLocalTurn(buffer);
-				if (!reversi.getStatus()) {
-					break;
-				}
-				client.sendExercise(buffer, LEN);
-				client.waitForMove(buffer, LEN);
-				if (strcmp(buffer, "End") == 0) {
-					cout << "No possible moves for both players. Game is Over!" << endl;
-					break;
-				}
-				reversi.playRemoteTurn(buffer);
-			}
-		} else {
-			while(reversi.getStatus()) {
-				client.waitForMove(buffer, LEN);
-				if (strcmp(buffer, "End") == 0) {
-					cout << "No possible moves for both players. Game is Over!" << endl;
-					break;
-				}
-				reversi.playRemoteTurn(buffer);
-				reversi.playLocalTurn(buffer);
-				if (!reversi.getStatus()) {
-					break;
-				}
-				client.sendExercise(buffer, LEN);
-			}
-		}
-		reversi.endGame();
-		strcpy(buffer, "End");
-		client.stop(buffer, LEN);
+		break;
+	default:
+		break;
 	}
 	return 0;
+}
+
+/**
+ * Check the validality of the input.
+ */
+RESULT checkInput(string str_input) {
+	if (str_input.length() == 1 && isdigit(str_input.at(0))) {
+		return success;
+	}
+	return failure;
+}
+
+/**
+ * Run local game as: AI or a human local game.
+ */
+void runLocalGame(int input) {
+	Game reversi(input, SIZE);
+	reversi.startGame();
+	while(reversi.getStatus()) {
+		reversi.makeTurn();
+	}
+	reversi.endGame();
+}
+
+/**
+ * Running the remote game.
+ */
+RESULT runRemoteGame() {
+	Client client("127.0.0.1", 8000);
+	char buffer[LEN];
+	try {
+		client.connectToServer();
+	} catch (const char *msg) {
+		cout << "Failed to connect to server. Reason: " << msg << endl;
+		return failure;
+	}
+	try {
+		// Waiting for server to set the players and update the players.
+		client.waitForMove(buffer, LEN);
+		Game reversi(SIZE, buffer[0]);
+		// Start the game of both players after setting players order.
+		reversi.startGame();
+		if (strcmp(buffer, "1") == 0) {
+			reversi.playLocalTurn(buffer);
+			client.sendExercise(buffer, LEN);
+		}
+		while (reversi.getStatus()) {
+			client.waitForMove(buffer, LEN);
+			if (strcmp(buffer, "End") == 0) {
+				break;
+			}
+			reversi.playRemoteTurn(buffer);
+			reversi.playLocalTurn(buffer);
+			client.sendExercise(buffer, LEN);
+		}
+		reversi.endGame();
+		client.closeClient();
+	} catch (const char *msg) {
+			cout << "Error occured. Reason: " << msg << endl;
+			return failure;
+	}
+	return success;
 }

@@ -21,8 +21,8 @@ Game::Game(int mod, int size) {
 	initGame(size);
 }
 
-Game::Game(int size, char *player) {
-	if (strcmp(player, "1") == 0) {
+Game::Game(int size, char player) {
+	if (player == '1') {
 		user_ = new User('X');
 		opponent_ = new User('O');
 	} else {
@@ -51,6 +51,7 @@ void Game::startGame() {
 	cout << "Current Board:" << endl;
 	cout << endl;
 	logic_game_->getBoard()->printBoard();
+	cout << endl;
 	running_ = true;
 }
 
@@ -70,10 +71,13 @@ void Game::endGame() {
 	} else {
 		user = "White";
 	}
+	cout << "No possible moves for both players. Game is Over!" << endl << endl;
 	if (opponent_->getSoldiers() > user_->getSoldiers()) {
-		cout << endl << opponent << " player win with " << opponent_->getSoldiers() << " soldiers!" << endl;
+		cout << endl << opponent << " player win with " << opponent_->getSoldiers()
+				<< " soldiers!" << endl;
 	} else if (user_->getSoldiers() > opponent_->getSoldiers()){
-		cout << endl << user << " player win with " << user_->getSoldiers() << " soldiers!" << endl;
+		cout << endl << user << " player win with " << user_->getSoldiers()
+				<< " soldiers!" << endl;
 	} else {
 		cout << endl <<  "Draw!" << endl;
 	}
@@ -82,7 +86,6 @@ void Game::endGame() {
 void Game::passTurn() {
 	//if last turn was passed and this too, meaning not turns possible for both players
 	if (passed_) {
-		cout << "No possible moves. Game is Over!" << endl;
 		//if passed is true thats mean that both players dont have moves so the game is over.
 		running_ = false;
 		return;
@@ -96,12 +99,7 @@ void Game::playRemoteTurn(char *move) {
 		opponent_->makeRemoteMove(user_, logic_game_, move);
 		passed_ = false;
 	} else {
-		cout << "Opponent don't have move." << endl << endl;
-		if (passed_) {
-			cout << "No possible moves for both players. Game is Over!" << endl;
-			running_ = false;
-			return;
-		}
+		cout << "Opponent don't have move." << endl;
 		passed_ = true;
 	}
 }
@@ -110,7 +108,7 @@ void Game::playLocalTurn(char *move) {
 	user_->makeLocalMove(opponent_, logic_game_, move);
 	if (strcmp(move, "NoMove") == 0) {
 		if (passed_) {
-			cout << "No possible moves for both players. Game is Over!" << endl;
+			strcpy(move, "End");
 			running_ = false;
 			return;
 		}

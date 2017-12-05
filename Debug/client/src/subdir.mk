@@ -10,6 +10,7 @@ CPP_SRCS += \
 ../client/src/Cpu.cpp \
 ../client/src/Game.cpp \
 ../client/src/Logic.cpp \
+../client/src/Move.cpp \
 ../client/src/User.cpp \
 ../client/src/main.cpp 
 
@@ -20,6 +21,7 @@ OBJS += \
 ./client/src/Cpu.o \
 ./client/src/Game.o \
 ./client/src/Logic.o \
+./client/src/Move.o \
 ./client/src/User.o \
 ./client/src/main.o 
 
@@ -30,6 +32,7 @@ CPP_DEPS += \
 ./client/src/Cpu.d \
 ./client/src/Game.d \
 ./client/src/Logic.d \
+./client/src/Move.d \
 ./client/src/User.d \
 ./client/src/main.d 
 
