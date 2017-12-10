@@ -37,13 +37,18 @@ void Server::open() {
 
 void Server::start() {
 	char buffer[LEN];
+    memset(buffer, 0, sizeof(buffer));
 	// Start listening to incoming connections.
 	listen(serverSocket, MAX_CONNECTED_CLIENTS);
 	// Define the client socket's structures
 	struct sockaddr_in first_clientAdress;
+    bzero((void *)&first_clientAdress, sizeof(first_clientAdress));
 	socklen_t first_clientAdressLen;
+    bzero((void *)&first_clientAdressLen, sizeof(first_clientAdressLen));
 	struct sockaddr_in second_clientAdress;
+    bzero((void *)&second_clientAdress, sizeof(second_clientAdress));
 	socklen_t second_clientAdressLen;
+    bzero((void *)&second_clientAdressLen, sizeof(second_clientAdressLen));
 	// Handle error occured on inner while.
 	while (true) {
 		// Server start his processes by listening and handle clients.
