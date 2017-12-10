@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fstream>
-#define SIZE 4
+#define SIZE 8
 #define LEN 256
 typedef enum result {failure, success} RESULT;
 using namespace std;
