@@ -7,10 +7,10 @@
 #include <fstream>
 using namespace std;
 
-int main12() {
+int main() {
 	int port;
 	ifstream config_client;
-	config_client.open("../../exe/server_config.txt");
+	config_client.open("src/server/server_config.txt");
 	// Read port from config.
 	if (config_client.is_open()) {
 		config_client >> port;

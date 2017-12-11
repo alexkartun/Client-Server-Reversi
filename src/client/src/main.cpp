@@ -16,7 +16,7 @@ RESULT checkInput(string);
 void runLocalGame(int);
 RESULT runRemoteGame();
 
-int main() {
+int main1() {
 	cout << "Welcome to Reversi!" << endl << endl;
 	cout << "Choose an opponent type:" <<endl;
 	cout << "1. a human local player" <<endl;
@@ -88,7 +88,7 @@ RESULT runRemoteGame() {
 	string ip;
 	int port;
 	ifstream config_client;
-	config_client.open("../../exe/client_config.txt");
+	config_client.open("src/client/client_config.txt");
 	// Read from file ip and port.
 	if (config_client.is_open()) {
 		config_client >> ip;
