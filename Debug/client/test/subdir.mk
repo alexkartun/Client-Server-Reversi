@@ -26,7 +26,7 @@ CPP_DEPS += \
 client/test/%.o: ../client/test/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
-	g++ -I"/home/kartuna/workspace/GitProject/client/gtest_src" -I"/home/kartuna/workspace/GitProject/client/include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -I"/home/kartuna/workspace/GitProject/client/include" -I"/home/kartuna/workspace/GitProject/client/gtest_src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
