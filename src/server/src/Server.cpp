@@ -49,7 +49,7 @@ void Server::start() {
     bzero((void *)&second_clientAdress, sizeof(second_clientAdress));
 	socklen_t second_clientAdressLen;
     bzero((void *)&second_clientAdressLen, sizeof(second_clientAdressLen));
-	// Handle error occured on inner while.
+	// Handle error occurred on inner while.
 	while (true) {
 		// Server start his processes by listening and handle clients.
 		while (true) {
@@ -67,7 +67,7 @@ void Server::start() {
 			try {
 				writeToClient(clientSocket_first, buffer);
 			} catch (const char *msg) {
-				cout << "Error occured. Reason: " << msg << endl;
+				cout << "Error occurred. Reason: " << msg << endl;
 				close(clientSocket_first);
 				break;
 			}
@@ -86,7 +86,7 @@ void Server::start() {
 				strcpy(buffer, "2");
 				writeToClient(clientSocket_second, buffer);
 			} catch (const char *msg) {
-				cout << "Error occured. Reason: " << msg << endl;
+				cout << "Error occurred. Reason: " << msg << endl;
 				close(clientSocket_first);
 				close(clientSocket_second);
 				break;
