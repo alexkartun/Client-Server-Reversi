@@ -13,7 +13,7 @@ Game::Game(int mod, int size) {
 	user_ = new User('X');
 	if (mod == 1) {
 		opponent_ = new User('O');
-	} else {
+	} else if (mod == 2) {
 		opponent_ = new Cpu('O');
 	}
 	running_ = false;
