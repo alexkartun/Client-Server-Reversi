@@ -1,0 +1,20 @@
+/*
+ * Command.h
+ */
+#include <vector>
+#include <string>
+
+using namespace std;
+
+#ifndef COMMAND_H_
+#define COMMAND_H_
+
+class Command {
+public:
+	virtual void execute(vector<string> args, int client_socket) = 0;
+	virtual ~Command() { }
+private:
+
+};
+
+#endif /* COMMAND_H_ */

@@ -19,11 +19,11 @@ public:
 	/**
 	 * Send msg to server.
 	 */
-	void sendExercise(char *, int);
+	void readFromServer(char *, int);
 	/**
 	 * Read msg from server.
 	 */
-	void waitForMove(char *, int len);
+	void writeToServer(const char *, int len);
 	/**
 	 * Close clien socket.
 	 */
