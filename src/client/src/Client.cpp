@@ -51,29 +51,16 @@ void Client::connectToServer() {
 	cout << "Connected to server" << endl << endl;
 }
 
-void Client::waitForMove(char *buffer, int len) {
+void Client::readFromServer(char *buffer, int len) {
+	// Read from server.
 	int n = read(clientSocket, buffer, len);
 	if (n == -1) {
-		throw "Error on reading from server.";
-	}
-	if (strcmp(buffer,"first") == 0) {
-		cout << "Waiting for other player to join..." << endl << endl;
-		n = read(clientSocket, buffer, len);
-		if (n == -1) {
-			throw "Error on reading from server.";
-		}
-	}
-	if (strcmp(buffer,"wait") == 0) {
-		cout << "Waiting for other player to make move..." << endl << endl;
-		n = read(clientSocket, buffer, len);
-		if (n == -1) {
-			throw "Error on reading from server.";
-		}
+		throw "Error on writing into the server";
 	}
 }
 
-void Client::sendExercise(char *buffer, int len) {
-	// Write move X, Y to the server or NoMove or End
+void Client::writeToServer(const char *buffer, int len) {
+	// Write to server.
 	int n = write(clientSocket, buffer, len);
 	if (n == -1) {
 		throw "Error on writing into the server";

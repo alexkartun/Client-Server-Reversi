@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fstream>
+#include <cstring>
 #define SIZE 8
 #define LEN 256
 typedef enum result {failure, success} RESULT;
@@ -17,10 +18,14 @@ RESULT checkInput(string, int*);
 void runLocalGame(int);
 RESULT runRemoteGame();
 
+<<<<<<< HEAD
+int main() {
+=======
 int main1() {
 	string str_input;
 	int input;
 
+>>>>>>> f7dd4f35a23b8075b1d5b56b198d084fd9d01d79
 	cout << "Welcome to Reversi!" << endl << endl;
 	cout << "Choose an opponent type:" <<endl;
 	cout << "1. a human local player" <<endl;
@@ -88,8 +93,13 @@ RESULT runRemoteGame() {
 	string ip;
 	int port;
 	ifstream config_client;
+<<<<<<< HEAD
+	config_client.open("client_config.txt");
+	// Read from file ip and port.
+=======
 	config_client.open("src/client/client_config.txt");
 	// Read IP and port from client configuration file.
+>>>>>>> f7dd4f35a23b8075b1d5b56b198d084fd9d01d79
 	if (config_client.is_open()) {
 		config_client >> ip;
 		config_client >> port;
@@ -107,26 +117,38 @@ RESULT runRemoteGame() {
 		return failure;
 	}
 	try {
-		// Waiting for server to set the players and update the players.
-		client.waitForMove(buffer, LEN);
+		cout << "Command's you can use are:" << endl;
+		cout << "start <name>" << endl;
+		cout << "list_games" << endl;
+		cout << "join <name>" << endl;
+		cout << "move <X> <Y>" << endl;
+		cout << "close <name>" << endl << endl;
+		string command;
+		do {
+			cout << "Type your command: ";
+			getline(cin, command);
+			client.writeToServer(command.c_str(), LEN);
+			client.readFromServer(buffer, LEN);
+			cout << buffer << endl;
+
+		} while(true);
+		client.readFromServer(buffer, LEN);
 		Game reversi(SIZE, buffer[0]);
 		// Start the game of both players after setting players order.
 		reversi.startGame();
-		if (strcmp(buffer, "1") == 0) {
+		if (strcmp(buffer, "X") == 0) {
 			reversi.playLocalTurn(buffer);
-			client.sendExercise(buffer, LEN);
+			client.writeToServer(buffer, LEN);
 		}
 		while (reversi.getStatus()) {
-			client.waitForMove(buffer, LEN);
+			client.readFromServer(buffer, LEN);
 			if (strcmp(buffer, "End") == 0) {
 				break;
 			}
 			reversi.playRemoteTurn(buffer);
 			reversi.playLocalTurn(buffer);
-			client.sendExercise(buffer, LEN);
+			client.writeToServer(buffer, LEN);
 		}
-		reversi.endGame();
-		client.closeClient();
 	} catch (const char *msg) {
 			cout << "Error occurred. Reason: " << msg << endl;
 			return failure;
