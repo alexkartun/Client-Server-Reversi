@@ -13,63 +13,59 @@
 typedef enum result {failure, success} RESULT;
 using namespace std;
 
-// Sub-functions declaration.
-RESULT checkInput(string, int*);
+RESULT checkInput(string);
 void runLocalGame(int);
 RESULT runRemoteGame();
 
-<<<<<<< HEAD
-int main() {
-=======
-int main1() {
-	string str_input;
-	int input;
-
->>>>>>> f7dd4f35a23b8075b1d5b56b198d084fd9d01d79
+int main2() {
 	cout << "Welcome to Reversi!" << endl << endl;
 	cout << "Choose an opponent type:" <<endl;
 	cout << "1. a human local player" <<endl;
 	cout << "2. an AI player" <<endl;
 	cout << "3. a remote player" <<endl;
 
-	// Get and validate chosen mode from user.
+	// Choosing our mode and checking his validality.
+	string str_input;
+	int input;
 	do {
 		getline(cin, str_input);
-		if (checkInput(str_input, &input) == success) {
-			break;
+		if (checkInput(str_input) == success) {
+			// Converting char to int
+			input = str_input.at(0) - 48;
+			if (input == 1 || input == 2 || input == 3) {
+				break;
+			} else {
+				cout << "Wrong input. Put input again!" << endl;
+			}
 		} else {
 			cout << "Wrong input. Put input again!" << endl;
 		}
 	} while(true);
 
 	switch (input) {
-		case 1:
-		case 2:
-			runLocalGame(input);
-			break;
-		case 3:
-			if (runRemoteGame() == failure) {
-				exit(-1);
-			}
-			break;
-		default:
-			break;
-    }
+	case 1:
+		runLocalGame(input);
+		break;
+	case 2:
+		runLocalGame(input);
+		break;
+	case 3:
+		if (runRemoteGame() == failure) {
+			exit(-1);
+		}
+		break;
+	default:
+		break;
+	}
 	return 0;
 }
 
 /**
- * Validation of main user input.
- * User input should be a number between 1-3.
- * If so - store numeric value in &input and return SUCCESS.
- * Otherwise, return FAILURE.
+ * Check the validality of the input.
  */
-RESULT checkInput(string str_input, int* input) {
+RESULT checkInput(string str_input) {
 	if (str_input.length() == 1 && isdigit(str_input.at(0))) {
-		*input = str_input.at(0) - '0';
-		if (*input == 1 || *input == 2 || *input == 3) {
-			return success;
-		}
+		return success;
 	}
 	return failure;
 }
@@ -93,18 +89,13 @@ RESULT runRemoteGame() {
 	string ip;
 	int port;
 	ifstream config_client;
-<<<<<<< HEAD
 	config_client.open("client_config.txt");
 	// Read from file ip and port.
-=======
-	config_client.open("src/client/client_config.txt");
-	// Read IP and port from client configuration file.
->>>>>>> f7dd4f35a23b8075b1d5b56b198d084fd9d01d79
 	if (config_client.is_open()) {
 		config_client >> ip;
 		config_client >> port;
 	} else {
-		cout << "Failed to open file." << endl;
+		cout << "Failed on oppening the file." << endl;
 		return failure;
 	}
 	config_client.close();
@@ -117,7 +108,7 @@ RESULT runRemoteGame() {
 		return failure;
 	}
 	try {
-		cout << "Command's you can use are:" << endl;
+		cout << "Commands you can use are:" << endl;
 		cout << "start <name>" << endl;
 		cout << "list_games" << endl;
 		cout << "join <name>" << endl;
@@ -150,7 +141,7 @@ RESULT runRemoteGame() {
 			client.writeToServer(buffer, LEN);
 		}
 	} catch (const char *msg) {
-			cout << "Error occurred. Reason: " << msg << endl;
+			cout << "Error occured. Reason: " << msg << endl;
 			return failure;
 	}
 	return success;
