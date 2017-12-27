@@ -19,11 +19,11 @@ public:
 	/**
 	 * Send msg to server.
 	 */
-	void readFromServer(char *, int);
+	int readFromServer(char *, int);
 	/**
 	 * Read msg from server.
 	 */
-	void writeToServer(const char *, int len);
+	int writeToServer(const char *, int len);
 	/**
 	 * Close clien socket.
 	 */

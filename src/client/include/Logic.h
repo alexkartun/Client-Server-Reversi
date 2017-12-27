@@ -57,6 +57,9 @@ public:
 	 * to the array
 	 */
 	void finishMove(int, int, char, int *, int *);
+	/**
+	 * Return board by reference.
+	 */
 	Board *getBoard() { return gaming_board_; }
     /**
 	 * Returning the number of destroyed enemies after the algorithm for calulating the count

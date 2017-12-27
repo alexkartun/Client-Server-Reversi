@@ -7,6 +7,7 @@
 Move::Move(int row, int col): row(row), col(col) { }
 
 string Move::toString() const {
+	// Parsing move to string by stringstream.
 	string to_string = "";
 	stringstream ss;
 	ss << row;

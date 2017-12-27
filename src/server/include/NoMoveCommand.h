@@ -14,7 +14,7 @@ class NoMoveCommand: public AbstractCommand {
 public:
 	NoMoveCommand(Server *server): AbstractCommand(server) { }
 	virtual void execute(string args, int client_socket) {
-		ref_to_server->writeToClient(client_socket, "NoMove");
+		ref_to_server->writeToClient(client_socket, "NoMove");   // send "noMove" to other player.
 	}
 };
 

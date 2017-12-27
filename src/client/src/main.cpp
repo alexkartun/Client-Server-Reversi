@@ -2,10 +2,11 @@
  * main.cpp
  */
 #include "Menu.h"
-using namespace std;
 
-
-int main1() {
+/**
+ * Main Ex5.
+ */
+int main() {
 	Menu menu;
 	menu.lobby();
 	exit(0);

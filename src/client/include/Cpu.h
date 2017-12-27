@@ -20,7 +20,7 @@ public:
 	void updateRemoteMove(Player *, Logic *, char *) { }
 	void makeLocalMove(Player *, Logic *, char *, string gameName) { }
 private:
-	//value of the player
+	//value of cpu
 	char value_;
 	//actual count of this player's soldiers on the field
 	int count_soldiers_;

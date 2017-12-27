@@ -22,6 +22,11 @@ struct ClientInfo {
 	int client_socket;
 };
 
+struct ServerInfo {
+	CommandsManager *manager;
+	Server *server;
+};
+
 void *listenToClients(void *);
 void *handleClient(void *);
 vector<string> bufferParsing(char* buffer);
@@ -52,27 +57,35 @@ void Server::open() {
 void Server::start() {
 	// Start listening to incoming connections.
 	listen(serverSocket, MAX_CONNECTED_CLIENTS);
-
+	CommandsManager manager(this);
 	pthread_t main_thread;
-	int rc = pthread_create(&main_thread, NULL, listenToClients, this);
+	// Tun the main thread that accepting clients.
+	ServerInfo server_info;
+	server_info.server = this;
+	server_info.manager = &manager;
+	int rc = pthread_create(&main_thread, NULL, listenToClients, &server_info);
 	if (rc) {
 		throw "Error on creating main thread.";
 	}
-	pthread_exit(NULL);
+	string input;
+	do {    // type exit to close the server.
+		getline(cin, input);
+	} while (input.compare("exit") != 0);
+	closeServer();
 }
 
-void *listenToClients(void *serv) {
-	Server *server = (Server *) serv;
-
+void *listenToClients(void *info) {
+	ServerInfo *server_info = (ServerInfo *) info;
+	Server *server = server_info->server;
+	CommandsManager *mng = server_info->manager;
 	struct sockaddr_in clientAdress;
 	bzero((void *)&clientAdress, sizeof(clientAdress));
 	socklen_t clientAdressLen;
 	bzero((void *)&clientAdressLen, sizeof(clientAdressLen));
 
-	vector<pthread_t> client_threads;
+	vector<pthread_t> client_threads; // check if needed.
 	ClientInfo client_info;
 
-	CommandsManager manager(server);
 	while (true) {
 		cout << "Waiting to client connections..." << endl;
 		// Accept a new client connection
@@ -83,9 +96,9 @@ void *listenToClients(void *serv) {
 		}
 		cout << "Client connected" << endl;
 
-		client_info.client_socket = client_socket;
-		client_info.server = server;
-		client_info.manager = &manager;
+		client_info.client_socket = client_socket;    // Instert client id to the struct.
+		client_info.server = server;    // Insert the reference of server to struct.
+		client_info.manager = mng;    // Insert manager reference to struct.
 
 		pthread_t newClientThread;
 		client_threads.push_back(newClientThread);
@@ -93,7 +106,7 @@ void *listenToClients(void *serv) {
 		if (rc) {
 			throw "Error on creating client thread.";
 		}
-		server->removeFinishedPlayers();
+		server->removeFinishedPlayers();    // Remoe players that finished to play.
 	}
 }
 
@@ -104,24 +117,32 @@ void Server::removeFinishedPlayers() {
 			sockets_status.erase(it->first);
 		}
 	}
-
 }
 
-// info = server + socket.
 void *handleClient(void *info) {
 	ClientInfo *client_info = (ClientInfo *) info;
+
 	Server *server = client_info->server;
 	int client_socket = client_info->client_socket;
-    server->updateSocketStatus(client_socket, chosing);
 	CommandsManager *manager = client_info->manager;
-	server->updateSocketStatus(client_socket, chosing);    //update socket status to be true
-
 	char buffer[LEN];
+	memset(buffer, '\0', sizeof(buffer));
+	server->updateSocketStatus(client_socket, chosing);    // Update socket status to be choosing.
+
 	while (server->socketStatus(client_socket) == chosing) {
-		server->readFromClient(client_socket, buffer);
-		execute(server, manager, buffer, client_socket);
+		int status = server->readFromClient(client_socket, buffer);
+		server->checkDisconnection(status, client_socket);
+		if (server->socketStatus(client_socket) != chosing) { break; }
+		execute(server, manager, buffer, client_socket); // Execute the command user want to execute.
 	}
 	return NULL;
+}
+
+void Server::checkDisconnection(int status, int socket) {
+	if (status == 0) {
+		updateSocketStatus(socket, finished);
+		close(socket);
+	}
 }
 
 STATUS Server::socketStatus(int socket) {
@@ -158,30 +179,33 @@ void execute(Server *srvr, CommandsManager *mng, char* buffer, int socket) {
 void Server::checkStatusSending(int status, string gameName, int socket) {
 	CommandsManager manager(this);
 	if (status == 0) {
-		string disconnect = "close";
-		manager.executeCommand(disconnect, gameName, socket);
+		string close = "close";
+		manager.executeCommand(close, gameName, socket);
 	}
 }
 
 void Server::activateGame(string gameName) {
 	int clientSocket1 = gamesAndPlayers[gameName].first_client;
 	int clientSocket2 = gamesAndPlayers[gameName].second_client;
-	updateSocketStatus(clientSocket1, playing);
+	updateSocketStatus(clientSocket1, playing);    //Status of both clients are playing.
 	updateSocketStatus(clientSocket2, playing);
-	char buffer[LEN];
+
 	int statusSending, statusReading;
 	CommandsManager manager(this);
+	char buffer[LEN];
+    memset(buffer, '\0', sizeof(buffer));
 	string player =  "X " + gameName;
 	strcpy(buffer, player.c_str());
 	statusSending = writeToClient(clientSocket1, buffer);
-	checkStatusSending(statusSending, gameName, clientSocket2);
+	checkStatusSending(statusSending, gameName, clientSocket2);    // check if client is online.
 	player =  "O " + gameName;
 	strcpy(buffer, player.c_str());
-	statusSending = writeToClient(clientSocket2, buffer);
+	statusSending = writeToClient(clientSocket2, buffer);    // check if client is online.
 	checkStatusSending(statusSending, gameName, clientSocket1);
+
 	while (socketStatus(clientSocket1) == playing and socketStatus(clientSocket2) == playing) {
 		statusReading = readFromClient(clientSocket1, buffer);
-		checkStatusSending(statusReading, gameName, clientSocket2);
+		checkStatusSending(statusReading, gameName, clientSocket2);    // check if client is online.
 		if (socketStatus(clientSocket1) == finished and socketStatus(clientSocket2) == finished) {
 			break;
 		}
@@ -190,7 +214,7 @@ void Server::activateGame(string gameName) {
 			break;
 		}
 		statusReading = readFromClient(clientSocket2, buffer);
-		checkStatusSending(statusReading, gameName, clientSocket1);
+		checkStatusSending(statusReading, gameName, clientSocket1);    // check if client is online.
 		if (socketStatus(clientSocket1) == finished and socketStatus(clientSocket2) == finished) {
 			break;
 		}
@@ -205,11 +229,11 @@ int Server::getServerSocket() {
 void Server::cancelGameRoom(string gameName) {
 	int client_socket1 = gamesAndPlayers[gameName].first_client;
 	int client_socket2 = gamesAndPlayers[gameName].second_client;
-	updateSocketStatus(client_socket1, finished);
+	updateSocketStatus(client_socket1, finished);    // update status of both to finished.
 	updateSocketStatus(client_socket2, finished);
-	close(client_socket1);
+	close(client_socket1);    // close both sockets.
 	close(client_socket2);
-	gamesAndPlayers.erase(gameName);
+	gamesAndPlayers.erase(gameName);    // cancel the room.
 }
 
 bool Server::addNewGame(string game_to_add, int client_socket) {
@@ -247,7 +271,10 @@ vector<string> Server::getGamesOnHold() {
 }
 
 int Server::writeToClient(int socket_client, const char *message) {
-	int n = write(socket_client, message, LEN);
+	char buffer[LEN];
+	memset(buffer, '\0', sizeof(buffer));
+	strcpy(buffer, message);
+	int n = write(socket_client, buffer, LEN);
 	if (n == -1) {
 		cout << "Error occurred. Write to client!" << endl;
 	}
@@ -269,5 +296,13 @@ int Server::readFromClient(int socket_client, char *message) {
 }
 
 void Server::closeServer() {
+	map<int, STATUS>::iterator it;
+	char buffer[LEN];
+	memset(buffer, '\0', sizeof(buffer));
+	strcpy(buffer, "exit");
+	for (it = sockets_status.begin(); it != sockets_status.end(); it++) {
+		writeToClient(it->first, buffer);
+		close(it->first);
+	}
 	close(serverSocket);
 }

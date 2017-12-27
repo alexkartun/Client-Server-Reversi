@@ -38,7 +38,7 @@ public:
 	/**
 	 * Play remote turn.
 	 */
-	void playRemoteTurn(char *move);
+	void updateRemoteTurn(char *move);
 	/**
 	 * Play local move.
 	 */

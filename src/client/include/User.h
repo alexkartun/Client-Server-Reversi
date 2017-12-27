@@ -42,8 +42,8 @@ public:
 	 */
 	bool startMove(Player *opponent, Logic * logic);
 	/**
-		 * User choosing his move.
-		 */
+	 * User choosing his move.
+     */
 	void chooseMove(int *row, int *col, Logic *logic);
 	/**
 	 * End the move.

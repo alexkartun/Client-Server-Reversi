@@ -34,9 +34,11 @@ public:
 	STATUS socketStatus(int socket);
 	void removeFinishedPlayers();
 	void checkStatusSending(int status, string game, int socket);
+	void checkDisconnection(int status, int socket);
 private:
 	int port;
 	int serverSocket;
+
 	vector<string> gamesOnHold;
 	map<string, ClientsInGame> gamesAndPlayers;
 	map<int, STATUS> sockets_status;

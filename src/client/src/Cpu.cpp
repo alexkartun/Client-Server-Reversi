@@ -29,6 +29,7 @@ void Cpu::makeMove(Player *opponent, Logic *logic) {
 	Move best_move = logic->minMaxAlgorithm(opponent->getValue(),
 			opponent->getSoldiers(), value_, count_soldiers_);
 	cout << endl;
+	// Updating cpu's move on board and update soldiers of both cpu and user.
 	int curr_sold = count_soldiers_;
 	int opp_sold = opponent->getSoldiers();
 	logic->finishMove(best_move.row + 1, best_move.col + 1, value_, &curr_sold, &opp_sold);

@@ -51,20 +51,16 @@ void Client::connectToServer() {
 	cout << "Connected to server" << endl << endl;
 }
 
-void Client::readFromServer(char *buffer, int len) {
+int Client::readFromServer(char *buffer, int len) {
 	// Read from server.
 	int n = read(clientSocket, buffer, len);
-	if (n == -1) {
-		throw "Error on writing into the server";
-	}
+	return n;
 }
 
-void Client::writeToServer(const char *buffer, int len) {
+int Client::writeToServer(const char *buffer, int len) {
 	// Write to server.
 	int n = write(clientSocket, buffer, len);
-	if (n == -1) {
-		throw "Error on writing into the server";
-	}
+	return n;
 }
 
 void Client::closeClient() {

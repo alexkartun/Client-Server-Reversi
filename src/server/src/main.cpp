@@ -27,9 +27,13 @@ int main() {
 	config_server.close();
 
 	Server *server = new Server(port);
-	server->open();
-	server->start();
-	server->closeServer();
-
+	try {
+		server->open();
+		server->start();
+		server->closeServer();
+	} catch (const char* msg) {
+		cout << "Error occurred. Reason: " << msg;
+	}
+	delete server;
 	exit(success);
 }

@@ -4,6 +4,7 @@
 
 #include "Menu.h"
 
+// Global buffer we will use for sending and reading data from server.
 char buffer[LEN];
 
 Menu::Menu() {
@@ -13,6 +14,7 @@ Menu::Menu() {
 }
 
 void Menu::lobby() {
+	// Print the options.
 	cout << "Welcome to Reversi!" << endl << endl;
 	cout << "Choose an opponent type:" <<endl;
 	cout << "1. a human local player" <<endl;
@@ -33,7 +35,7 @@ void Menu::lobby() {
 			cout << "Wrong input. Put input again!" << endl;
 		}
 	} while(true);
-
+	// Switch table for user's input.
 	switch (input) {
 	case 1:
 	case 2:
@@ -104,18 +106,22 @@ void Menu::displayCommands() {
 void Menu::checkCommand(string str) {
 	do {
 		string::size_type pos = str.find(' ', 0);
+		// Split the string by first space. If pos is npos so string is only one word, otherwise more.
 		if (pos != string::npos) {
 			string command = str.substr(0, pos);
+			// Check if command is start or join. If yes update the buffer.
 			if (!command.compare("start") || !command.compare("join")) {
 				strcpy(buffer, str.c_str());
 				break;
 			}
 		} else {
+			// Check if command is "list_games". If yes update the buffer.
 			if (!str.compare("list_games")) {
 				strcpy(buffer, str.c_str());
 				break;
 			}
 		}
+		// Type again.
 		cout << "Type your command again: ";
 		getline(cin, str);
 	} while (true);
@@ -127,17 +133,20 @@ void Menu::checkCommand(string str) {
 RESULT Menu::runRemoteGame() {
 	int port;
 	char ip[LEN];
+	// Import port and ip.
 	if (importClientDetailsFromFile(&port, ip) == failure) {
 		return failure;
 	}
 
 	Client client(ip, port);
+	// Connect to server.
 	try {
 		client.connectToServer();
 	} catch (const char *msg) {
 		cout << "Failed to connect to server. Reason: " << msg << endl;
 		return failure;
 	}
+	// Display commands user can make.
 	cout << "Commands you can use are:" << endl;
 	displayCommands();
 	string input;
@@ -145,68 +154,77 @@ RESULT Menu::runRemoteGame() {
 		cout << "Type your command: ";
 		getline(cin, input);
 		checkCommand(input);
-		string command(buffer);
+		string command(buffer);    // After command was coosen validly save him on command for future use.
 		client.writeToServer(buffer, LEN);
 		client.readFromServer(buffer, LEN);
 		if (strcmp(buffer, "1") == 0) {
+			// If buffer is 1 meaning user wanted to start or join the game.
 			cout << "Command executed successfully." << endl;
 			string::size_type pos = command.find(' ', 0);
 			command = command.substr(0, pos);
+			// Here we using command we saved.
 			if (command.compare("start") == 0) {
 				cout << "Wait for other player to join" << endl;
 			}
 			break;
 		}
 		else if (strcmp(buffer, "-1") == 0) {
+			// If buffer is "-1" meaning user wanted to start or join not valid game.
 			cout << "Command failed. Try again." <<endl;
 		} else {
+			// Otherwise print list of games.
 			cout << buffer << endl;
 		}
 	} while(true);
+	// Run game.
 	runGame(client);
 	return success;
 }
 
 void Menu::runGame(Client client) {
-	client.readFromServer(buffer, LEN);   //user got symbol.
+	client.readFromServer(buffer, LEN);   // User got symbol.
+
 	string playerData(buffer);
-	//Parse symbol and game name.
 	string::size_type pos = playerData.find(' ', 0);
-	string symbol = playerData.substr(0, pos);
-	string game = playerData.substr(pos + 1);
+	string symbol = playerData.substr(0, pos);    // Parse symbol.
+	string game = playerData.substr(pos + 1);    // Parse game name.
 
 	Game reversi(SIZE, symbol.at(0), game);
 	reversi.startGame();
 
-	commands.clear();
-	cout << "Comands u can use now are: " << endl;
+	commands.clear();    // Remove the old commands of user and insert new one.
 	commands.push_back("<X> <Y>");
 	commands.push_back("close <name>");
-	displayCommands();
+	cout << "Comands u can use now are: " << endl;
+	displayCommands();    //Display the commands for user.
 	cout << endl;
 
-	if (symbol.at(0) == 'X') {
+	if (symbol.at(0) == 'X') {    // If current client is 'X' meaning first player so start the flow.
 		reversi.playLocalTurn(buffer);
 		client.writeToServer(buffer, LEN);
 	}
-	while (reversi.getStatus()) {
+	while (reversi.getStatus()) {    //From here is same flow for both.
 		cout << "Wait for other player to make move." <<endl;
 		client.readFromServer(buffer, LEN);
-	    if (strcmp(buffer, "close") == 0) {
-	        break;
+	    if (strcmp(buffer, "close") == 0 || strcmp(buffer, "exit") == 0) {    // If user wanted to
+	        break;															  //close game or server is closed.
 	    }
-	    reversi.playRemoteTurn(buffer);
-	    if (!reversi.getStatus()) { break; }
-	    reversi.playLocalTurn(buffer);
-	    if (strcmp(buffer, "end") == 0) { break; }
-	    client.writeToServer(buffer, LEN);
-	}
+	    reversi.updateRemoteTurn(buffer);    // Update remote move.
+	    if (!reversi.getStatus()) { break; }    // If game is over break, or no possible moves for both players.
+	    reversi.playLocalTurn(buffer);    //Play local turn with current client.
+	    if (strcmp(buffer, "end") == 0) { break; }    //If board is full meaning end of the game, break.
+	    int status = client.writeToServer(buffer, LEN);
+	    if (!status) { strcpy(buffer, "exit"); break; }    // if user was on writing to server,
+	}                                                      // and server is executed exit.
 	playerData = "close " + game;
-	if (strcmp(buffer, "close") == 0) {
+	if (strcmp(buffer, "close") == 0) {    // If buffer was "close" so display for user this message.
+		// Meaning other usre dced.
 		cout << "Other player disconnected. You win by technical win." << endl;
-	} else if (strcmp(buffer, playerData.c_str()) == 0){
+	} else if (strcmp(buffer, playerData.c_str()) == 0){    // Print for user that closed the game.
 		cout << "Hope you enjoyed. Cya again!" << endl;
+	} else if (strcmp(buffer, "exit") == 0){
+		cout << "Server is closed. Come next time." << endl;  // meaning served is closed.
 	} else {
-		reversi.endGame();
+		reversi.endGame();    // End game.
 	}
 }
