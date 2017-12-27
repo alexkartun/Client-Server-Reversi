@@ -171,9 +171,11 @@ RESULT Menu::runRemoteGame() {
 		else if (strcmp(buffer, "-1") == 0) {
 			// If buffer is "-1" meaning user wanted to start or join not valid game.
 			cout << "Command failed. Try again." <<endl;
+		} else if (strcmp(buffer, "exit") == 0){
+			cout << "Server is closed. Come next time." << endl;  // meaning served is closed.
+			return failure;
 		} else {
-			// Otherwise print list of games.
-			cout << buffer << endl;
+			cout << buffer << endl;    // Otherwise print list of games.
 		}
 	} while(true);
 	// Run game.

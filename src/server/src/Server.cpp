@@ -63,6 +63,7 @@ void Server::start() {
 	ServerInfo server_info;
 	server_info.server = this;
 	server_info.manager = &manager;
+
 	int rc = pthread_create(&main_thread, NULL, listenToClients, &server_info);
 	if (rc) {
 		throw "Error on creating main thread.";
@@ -71,7 +72,6 @@ void Server::start() {
 	do {    // type exit to close the server.
 		getline(cin, input);
 	} while (input.compare("exit") != 0);
-	closeServer();
 }
 
 void *listenToClients(void *info) {
@@ -82,8 +82,6 @@ void *listenToClients(void *info) {
 	bzero((void *)&clientAdress, sizeof(clientAdress));
 	socklen_t clientAdressLen;
 	bzero((void *)&clientAdressLen, sizeof(clientAdressLen));
-
-	vector<pthread_t> client_threads; // check if needed.
 	ClientInfo client_info;
 
 	while (true) {
@@ -97,11 +95,11 @@ void *listenToClients(void *info) {
 		cout << "Client connected" << endl;
 
 		client_info.client_socket = client_socket;    // Instert client id to the struct.
-		client_info.server = server;    // Insert the reference of server to struct.
+		client_info.server = server;    // Insert the reference of seclrver to struct.
 		client_info.manager = mng;    // Insert manager reference to struct.
 
 		pthread_t newClientThread;
-		client_threads.push_back(newClientThread);
+
 		int rc = pthread_create(&newClientThread, NULL, handleClient, &client_info);
 		if (rc) {
 			throw "Error on creating client thread.";
@@ -135,6 +133,7 @@ void *handleClient(void *info) {
 		if (server->socketStatus(client_socket) != chosing) { break; }
 		execute(server, manager, buffer, client_socket); // Execute the command user want to execute.
 	}
+
 	return NULL;
 }
 

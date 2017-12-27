@@ -19,6 +19,7 @@ using namespace std;
 class Server {
 public:
 	Server(int port);
+	~Server() { }
 	void open();
 	void start();
 	int getServerSocket();
@@ -38,7 +39,6 @@ public:
 private:
 	int port;
 	int serverSocket;
-
 	vector<string> gamesOnHold;
 	map<string, ClientsInGame> gamesAndPlayers;
 	map<int, STATUS> sockets_status;
