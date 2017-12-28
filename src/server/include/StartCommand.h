@@ -9,8 +9,8 @@
 class StartCommand: public AbstractCommand {
 public:
 	StartCommand(Server *server): AbstractCommand(server) { }
-	virtual void execute(string args, int client_socket) {
-		string message;
+	virtual void execute(string args, int client_socket) {   //TODO:virtual
+	    string message;
 		string game_to_add = args; // game name.
 		bool status = ref_to_server->addNewGame(game_to_add, client_socket);    // add new game to map.
 		if (status) {															// only if status is true.
