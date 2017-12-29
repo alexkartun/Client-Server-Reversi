@@ -95,7 +95,7 @@ COMMAND User::checkCommand(string input, string gameName, Logic *logic) {
 	} else {
 		// Check if first word is close and second word matching to the gameName.
 		if (input.substr(0, pos).compare("close") == 0 && input.substr(pos + 1).compare(gameName) == 0) {
-			return close;
+			return close_game;
 		}
 	}
 	return notvalid;

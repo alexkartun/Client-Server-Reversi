@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fstream>
-
 #include <cstring>
 // Size of game.
 #define SIZE 4
@@ -31,7 +30,7 @@ public:
 	/*
 	 * Lobby of client by checking which game he want to play.
 	 */
-	void lobby();
+	RESULT lobby();
 private:
 	/**
 	 * Import ip and port from file.
@@ -56,7 +55,7 @@ private:
 	/**
 	 * After starting or joining the game we start to run the flow of the game.
 	 */
-	void runGame(Client client);
+	void runGame(Client *client);
 	/**
 	 * Display commands to user. Commands he can use.
 	 */

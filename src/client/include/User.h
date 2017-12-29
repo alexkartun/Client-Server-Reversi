@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Logic.h"
 
-typedef enum command {play, close, notvalid} COMMAND;
+typedef enum command {play, close_game, notvalid} COMMAND;
 
 class User: public Player {
 public:

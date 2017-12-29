@@ -12,9 +12,12 @@
 
 class NoMoveCommand: public AbstractCommand {
 public:
-	NoMoveCommand(Server *server): AbstractCommand(server) { }
-	virtual void execute(string args, int client_socket) {
-		ref_to_server->writeToClient(client_socket, "NoMove");   // send "noMove" to other player.
+	NoMoveCommand(Lobby *lobby): AbstractCommand(lobby) { }
+	void execute(string args, int client_socket) {
+		char buffer[LEN];
+		memset(buffer, '\0', sizeof(buffer));
+		strcpy(buffer, "NoMove");
+		write(client_socket, buffer, LEN);  // send "noMove" to other player.
 	}
 };
 

@@ -9,9 +9,9 @@
 
 class GamesCommand: public AbstractCommand {
 public:
-	GamesCommand(Server *server): AbstractCommand(server) { }
-	virtual void execute(string args, int client_socket) {
-		vector<string> list_of_games = ref_to_server->getGamesOnHold();   // get list of games.
+	GamesCommand(Lobby *lobby): AbstractCommand(lobby) { }
+	void execute(string args, int client_socket) {
+		vector<string> list_of_games = lobby->getGamesOnHold();   // get list of games.
 		string list_to_string = "Active games on hold:";
 		if (list_of_games.empty()) {    // if list is empty send to client "none"
 			list_to_string += " None!";
@@ -25,7 +25,10 @@ public:
 				list_to_string += list_of_games[i];
 			}
 		}
-		ref_to_server->writeToClient(client_socket, list_to_string.c_str());
+		char buffer[LEN];
+		memset(buffer, '\0', sizeof(buffer));
+		strcpy(buffer, list_to_string.c_str());
+		write(client_socket, buffer, LEN);
 	}
 };
 

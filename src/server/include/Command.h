@@ -1,13 +1,12 @@
 /*
  * Command.h
  */
+#ifndef COMMAND_H_
+#define COMMAND_H_
 #include <vector>
 #include <string>
 
 using namespace std;
-
-#ifndef COMMAND_H_
-#define COMMAND_H_
 /**
  * Interface.
  */

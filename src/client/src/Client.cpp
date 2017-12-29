@@ -9,10 +9,11 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <stdexcept>
 
 using namespace std;
 
-Client::Client(const char *serverIP, int serverPort): serverIP(serverIP), serverPort(serverPort),
+Client::Client(char *serverIP, int serverPort): serverIP(serverIP), serverPort(serverPort),
 		clientSocket(0) {
 	cout << "Client" << endl;
 }
@@ -51,16 +52,20 @@ void Client::connectToServer() {
 	cout << "Connected to server" << endl << endl;
 }
 
-int Client::readFromServer(char *buffer, int len) {
+void Client::readFromServer(char *buffer, int len) {
 	// Read from server.
 	int n = read(clientSocket, buffer, len);
-	return n;
+	if (n == -1) {
+		cout << "Error occured on reading from server." << endl;
+	}
 }
 
-int Client::writeToServer(const char *buffer, int len) {
+void Client::writeToServer(const char *buffer, int len) {
 	// Write to server.
 	int n = write(clientSocket, buffer, len);
-	return n;
+	if (n == -1) {
+		cout << "Error occured on writing to server." << endl;
+	}
 }
 
 void Client::closeClient() {

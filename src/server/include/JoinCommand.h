@@ -8,19 +8,19 @@
 
 class JoinCommand: public AbstractCommand {
 public:
-	JoinCommand(Server *server): AbstractCommand(server) { }
-	virtual void execute(string args, int client_socket) {
+	JoinCommand(Lobby *lobby): AbstractCommand(lobby) { }
+	void execute(string args, int client_socket) {
 		string game_to_join = args; // game name.
-		bool status = ref_to_server->joinGame(game_to_join, client_socket);    // check if can join the game.
-		if (status) {
-			string message = "1";
-			ref_to_server->writeToClient(client_socket, message.c_str());
-			// if can join activate game with both clients.
-			ref_to_server->activateGame(game_to_join);
-		} else {
-			// If game is not found
-			string message = "-1";
-			ref_to_server->writeToClient(client_socket, message.c_str());
+		char buffer[LEN];
+		memset(buffer, '\0', sizeof(buffer));
+		bool status = lobby->joinGame(game_to_join, client_socket);
+		if (status) {    // check if can join the game.
+			strcpy(buffer, "1");
+			write(client_socket, buffer, LEN);
+			lobby->activateGame(game_to_join);    // if can join activate game with both clients.
+		} else {    // If game is not found
+			strcpy(buffer, "-1");
+			write(client_socket, buffer, LEN);
 		}
 	}
 };

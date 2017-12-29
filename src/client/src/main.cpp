@@ -6,10 +6,14 @@
 /**
  * Main Ex5.
  */
-int main1() {
-	Menu menu;
-	menu.lobby();
-	exit(0);
+int main() {
+	Menu *menu = new Menu();
+	if (menu->lobby() == failure) {
+		delete menu;
+		exit(failure);
+	}
+	delete menu;
+	exit(success);
 }
 
 

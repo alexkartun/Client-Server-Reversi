@@ -8,9 +8,12 @@
 
 class PlayCommand: public AbstractCommand {
 public:
-	PlayCommand(Server *server): AbstractCommand(server) { }
-	virtual void execute(string args, int client_socket) {
-		ref_to_server->writeToClient(client_socket, args.c_str()); // <X> <Y>
+	PlayCommand(Lobby *lobby): AbstractCommand(lobby) { }
+	void execute(string args, int client_socket) {
+		char buffer[LEN];
+		memset(buffer, '\0', sizeof(buffer));
+		strcpy(buffer, args.c_str());
+		write(client_socket, buffer, LEN);    // send move to other player.
 	}
 };
 

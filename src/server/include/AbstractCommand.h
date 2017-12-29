@@ -5,16 +5,19 @@
 #define ABSTRACTCOMMAND_H_
 
 #include "Command.h"
-#include <iostream>
+#include "Lobby.h"
+#include <unistd.h>    // write and read to sockets.
+#include <string.h>    // for strcpy.
+#define LEN 256
 
 /**
  * Abstract command class.
  */
 class AbstractCommand: public Command {
 public:
-	AbstractCommand(Server *server): ref_to_server(server) { }
+	AbstractCommand(Lobby *lobby): lobby(lobby) { }
 protected:
-	Server *ref_to_server;   // saving reference to server for all his sons.
+	Lobby *lobby;   // saving reference to GameManager.
 };
 
 #endif /* ABSTRACTCOMMAND_H_ */

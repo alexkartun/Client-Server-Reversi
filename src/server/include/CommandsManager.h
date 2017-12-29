@@ -4,14 +4,22 @@
 
 #include <map>
 #include "Command.h"
-#include "Server.h"
+#include "Lobby.h"
 
 #ifndef COMMANDSMANAGER_H_
 #define COMMANDSMANAGER_H_
-
+/**
+ * Command manager for execution of commands.
+ */
 class CommandsManager {
 public:
-	CommandsManager(Server *server);
+	/**
+	 * Constructor.
+	 */
+	CommandsManager(Lobby *lobby);
+	/**
+	 * Deconstructor.
+	 */
 	~CommandsManager();
 	/**
 	 * Execute command via map of commands.

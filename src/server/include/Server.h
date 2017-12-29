@@ -7,41 +7,45 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "Lobby.h"
+#include <stdexcept>
 
-struct ClientsInGame {
-	int first_client;
-	int second_client;
-};
-
-typedef enum status {chosing, waiting, playing, finished} STATUS;
 using namespace std;
+#define MAX_CONNECTED_CLIENTS 10
 
+/**
+ * Server class.
+ */
 class Server {
 public:
+	/**
+	 * Constructor.
+	 */
 	Server(int port);
-	~Server() { }
+	/**
+	 * Deconstructor.
+	 */
+	~Server();
+	/**
+	 * Open server socket with binding.
+	 */
 	void open();
+	/**
+	 * Start listening to clients. Create main thread to listen.
+	 */
 	void start();
-	int getServerSocket();
+	/**
+	 * Close server with suitable message to clients.
+	 */
 	void closeServer();
-	int writeToClient(int socket_client, const char *message);
-	int readFromClient(int socket_client, char *message);
-	bool addNewGame(string game, int socket);
-	bool joinGame(string game, int socket);
-	void activateGame(string game);
-	vector<string> getGamesOnHold();
-	void cancelGameRoom(string gameName);
-	void updateSocketStatus(int socket, STATUS status);
-	STATUS socketStatus(int socket);
-	void removeFinishedPlayers();
-	void checkStatusSending(int status, string game, int socket);
-	void checkDisconnection(int status, int socket);
+	/**
+	 * Get server socket.
+	 */
+	int getServerSocket();
 private:
 	int port;
 	int serverSocket;
-	vector<string> gamesOnHold;
-	map<string, ClientsInGame> gamesAndPlayers;
-	map<int, STATUS> sockets_status;
+	Lobby *lobby;
 };
 
 #endif /* SERVER_H_ */

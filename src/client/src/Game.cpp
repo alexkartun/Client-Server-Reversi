@@ -123,7 +123,7 @@ void Game::playLocalTurn(char *move) {
 		string command("close ");
 		command += gameName;
 		// If user want to close  the game or, board is full, finish the game.
-		if (strcmp(move, command.c_str()) == 0 || strcmp(move, "end") == 0){
+		if (strcmp(move, command.c_str()) == 0 || strcmp(move, "end") == 0 || logic_game_->isFinished()){
 			running_ = false;
 		}
 	}

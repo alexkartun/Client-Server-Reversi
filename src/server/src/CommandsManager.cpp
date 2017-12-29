@@ -10,13 +10,13 @@
 #include "CloseCommand.h"
 #include "NoMoveCommand.h"
 
-CommandsManager::CommandsManager(Server *server) {
-	commandsMap["start"] = new StartCommand(server);
-	commandsMap["list_games"] = new GamesCommand(server);
-	commandsMap["join"] = new JoinCommand(server);
-	commandsMap["play"] = new PlayCommand(server);
-	commandsMap["close"] = new CloseCommand(server);
-	commandsMap["NoMove"] = new NoMoveCommand(server);
+CommandsManager::CommandsManager(Lobby *lobby) {
+	commandsMap["start"] = new StartCommand(lobby);
+	commandsMap["list_games"] = new GamesCommand(lobby);
+	commandsMap["join"] = new JoinCommand(lobby);
+	commandsMap["play"] = new PlayCommand(lobby);
+	commandsMap["close"] = new CloseCommand(lobby);
+	commandsMap["NoMove"] = new NoMoveCommand(lobby);
 }
 
 CommandsManager::~CommandsManager() {

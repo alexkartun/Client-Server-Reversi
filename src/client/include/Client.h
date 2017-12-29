@@ -11,7 +11,7 @@ public:
 	/**
 	 * Constructor.
 	 */
-	Client(const char *serverIP, int serverPort);
+	Client(char *serverIP, int serverPort);
 	/**
 	 * Connect to server.
 	 */
@@ -19,17 +19,17 @@ public:
 	/**
 	 * Send msg to server.
 	 */
-	int readFromServer(char *, int);
+	void readFromServer(char *, int);
 	/**
 	 * Read msg from server.
 	 */
-	int writeToServer(const char *, int len);
+	void writeToServer(const char *, int len);
 	/**
 	 * Close clien socket.
 	 */
 	void closeClient();
 private:
-	const char *serverIP;
+	char *serverIP;
 	int serverPort;
 	int clientSocket;
 };
