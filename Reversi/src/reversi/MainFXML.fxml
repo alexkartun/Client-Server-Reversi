@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+	
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="reversi.ReversiGameController" fx:id="root" spacing="10">
+
+	<VBox>
+	    <Label>Current player: </Label>
+	    <Label fx:id="current_player"/>
+	    <Label>Black player score:</Label>
+	    <Label fx:id="black_score"/>
+	    <Label>White player score:</Label>
+	    <Label fx:id="white_score"/>
+	    <Label fx:id="win_game"/>
+	    <Button text="Exit Game" onAction="#exit"/>
+	</VBox>
+
+</HBox>
+
