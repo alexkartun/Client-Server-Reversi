@@ -17,8 +17,6 @@ public class ReversiGameController implements Initializable {
 	private Label black_score;
 	@FXML
 	private Label white_score;
-	@FXML
-	private Label win_game;
 	
 	int size = 4;
 	int WIDTH = 400;
@@ -37,7 +35,7 @@ public class ReversiGameController implements Initializable {
 		white_score.setText("2");
 		black_score.setText("2");
 		
-		ReversiBoard reversi_board = new ReversiBoard(game, current_player, white_score, black_score, win_game); 
+		ReversiBoard reversi_board = new ReversiBoard(game, current_player, white_score, black_score); 
 	
 		reversi_board.setPrefWidth(WIDTH);
 		reversi_board.setPrefHeight(HEIGHT);

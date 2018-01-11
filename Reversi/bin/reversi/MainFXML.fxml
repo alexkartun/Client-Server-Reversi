@@ -12,7 +12,6 @@
 	    <Label fx:id="black_score"/>
 	    <Label>White player score:</Label>
 	    <Label fx:id="white_score"/>
-	    <Label fx:id="win_game"/>
 	    <Button text="Exit Game" onAction="#exit"/>
 	</VBox>
 

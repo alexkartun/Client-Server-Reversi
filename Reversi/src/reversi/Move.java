@@ -24,4 +24,13 @@ public class Move {
 	public int getCol() {
 		return this.col;
 	}
+	
+	@Override
+	public boolean equals(Object arg0) {
+		Move other_move = (Move) arg0;
+		if (this.row == other_move.row && this.col == other_move.col) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -1,11 +1,12 @@
 package reversi;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Game {
 	private Logic logic;
 	public enum status {
-	     End, NoMove, Move, BadInput
+	     End, NoMove, Move
 	}
 	Stack<Player> players;
 	
@@ -19,30 +20,43 @@ public class Game {
 	public char[][] getBoard() {
 		return this.logic.getBoard().getBoardCells();
 	}
- 
-	public status makeTurn(Move m) {
+	
+	public ArrayList<Move> getPossibleMoves() {
+		return this.logic.getPossibleMoves();
+	}
+	
+	public boolean makeTurn(Move m) {
 		Player turnPlayer = players.peek();
 		this.logic.setPossibleMoves(turnPlayer);
+		if (this.logic.isMoveValid(m)) {
+			this.logic.updateBoard(m.getRow() - 1, m.getCol() - 1, turnPlayer);    //Update board with new move.
+		} else {
+			return false;    //Wrong Input
+		}
+		switchTurns();
+		return true;    //Good Input
+	}
+	
+	public void setPossibleMoves() {
+		Player turnPlayer = players.peek();
+		this.logic.setPossibleMoves(turnPlayer);
+	}
+	
+	public status checkStatusGame() {
+		setPossibleMoves();
 		if (this.logic.getPossibleMoves().isEmpty()) {
 			switchTurns();
 			Player rival = players.peek();
 			this.logic.setPossibleMoves(rival);
-			if(this.logic.getPossibleMoves().isEmpty()) {    //END OF GAME. BOTH CANT PLAY //TODO::END GAME
-				return status.End;    //END GAME.
+			if(this.logic.getPossibleMoves().isEmpty()) {
+				return status.End;
 			} else {
 				return status.NoMove;
 			}
-		} else {
-			if (this.logic.isMoveValid(m)) {
-				this.logic.updateBoard(m.getRow() - 1, m.getCol() - 1, turnPlayer);
-			} else {
-				return status.BadInput;
-			}
 		}
-		switchTurns();
 		return status.Move;
 	}
-
+	
 	public String WhiteScore() {
 		return Integer.toString(countScore('O'));
 	}
@@ -63,9 +77,12 @@ public class Game {
 		}
 		return count;
 	}
+	
+	public void clearPossibleMoves() {
+		logic.clearPossibleMoves();
+	}
 	public void switchTurns() {
 		Player p1 = players.peek();
-		this.logic.clearPossibleMoves();
 		players.pop();
 		Player p2 = players.peek();
 	    players.pop();
