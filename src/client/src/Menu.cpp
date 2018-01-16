@@ -151,6 +151,16 @@ RESULT Menu::runRemoteGame() {
 		delete client;
 		return failure;
 	}
+	cout << "Wait for server response." << endl << endl;
+	client->readFromServer(buffer, LEN);
+	if (strcmp(buffer, "exit") == 0){
+		cout << "Server is closed. Come next time." << endl;  // meaning served is closed.
+		client->closeClient();
+		delete client;
+		return failure;
+	}
+	cout << buffer << endl << endl;
+
 	// Display commands user can make.
 	cout << "Commands you can use are:" << endl;
 	displayCommands();
@@ -178,6 +188,8 @@ RESULT Menu::runRemoteGame() {
 			cout << "Command failed. Try again." <<endl;
 		} else if (strcmp(buffer, "exit") == 0){
 			cout << "Server is closed. Come next time." << endl;  // meaning served is closed.
+			client->closeClient();
+			delete client;
 			return failure;
 		} else {
 			cout << buffer << endl;    // Otherwise print list of games.

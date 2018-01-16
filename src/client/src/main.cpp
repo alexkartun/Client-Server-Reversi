@@ -6,7 +6,7 @@
 /**
  * Main Ex5.
  */
-int main() {
+int main1() {
 	Menu *menu = new Menu();
 	if (menu->lobby() == failure) {
 		delete menu;

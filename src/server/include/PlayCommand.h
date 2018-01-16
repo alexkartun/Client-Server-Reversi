@@ -5,6 +5,7 @@
 #define PLAYCOMMAND_H_
 
 #include "AbstractCommand.h"
+#include <sys/socket.h>
 
 class PlayCommand: public AbstractCommand {
 public:
@@ -13,7 +14,7 @@ public:
 		char buffer[LEN];
 		memset(buffer, '\0', sizeof(buffer));
 		strcpy(buffer, args.c_str());
-		write(client_socket, buffer, LEN);    // send move to other player.
+		write(client_socket, buffer, LEN);
 	}
 };
 

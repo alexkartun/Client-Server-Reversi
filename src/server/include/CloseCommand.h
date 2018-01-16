@@ -16,7 +16,7 @@ public:
 		memset(buffer, '\0', sizeof(buffer));
 		strcpy(buffer, "close");
 		write(client_socket, buffer, LEN);    // write to client "close"
-		lobby->cancelGameRoom(game_to_stop);    // cancel the room.
+		lobby->cancelGameRoom(game_to_stop, client_socket);    // cancel the room.
 	}
 };
 

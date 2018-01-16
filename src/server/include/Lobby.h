@@ -8,6 +8,9 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "ThreadPool.h"
+#include "Task.h"
+#define NUM_OF_THREADS 5
 
 struct ClientsInGame {
 	int first_client;
@@ -22,11 +25,17 @@ typedef enum status {chosing, waiting, playing, finished} STATUS;
  */
 class Lobby {
 public:
-	Lobby() { }
+	/**
+	 * Constructor.
+	 */
+	Lobby();
+	/**
+	 * Deconstructor.
+	 */
+	virtual ~Lobby();
 	/**
 	 * Start lobby.
 	 */
-	~Lobby() { }
 	void startLobby(int server_socket);
 	/**
 	 * Checking status of sending message to client. Care about dces.
@@ -43,7 +52,7 @@ public:
 	/**
 	 * Cancel game room. Meaning remove game from map.
 	 */
-	void cancelGameRoom(string gameName);
+	void cancelGameRoom(string gameName, int socket);
 	/**
 	 * Get list of games that on hold.
 	 */
@@ -73,14 +82,31 @@ public:
 	 */
     void closeConnectionWithClients();
     /**
-     * Add thread to vector of threads.
+     * Add new task to pool and to list of tasks.
      */
-    void addThread(pthread_t thread) { clients_threads.push_back(thread); }
+    void addTask(Task *task) { pool->addTask(task); tasks.push_back(task); }
+    /**
+     * Get players that starting to play.
+     */
+    ClientsInGame getStartedClients(string gameName);
+    /**
+     * Get players that finished to play.
+     */
+    ClientsInGame getFinishedClients(string game_name, int client_socket);
+    /**
+     * Removed finished map from game.
+     */
+    void removeFinishedGame(string game_name, int socket_1, int socket_2);
+    /**
+     * Add player to map that joined to waiting game.
+     */
+    void joinPlayerToGame(string game_to_join, int client_socket);
 private:
 	vector<string> gamesOnHold;
 	map<int, STATUS> sockets_status;
-	map<string, ClientsInGame> gamesAndPlayers;
-	vector<pthread_t> clients_threads;
+	multimap<string, ClientsInGame> gamesAndPlayers;
+	ThreadPool *pool;
+	vector<Task *> tasks;
 };
 
 #endif /* LOBBY_H_ */

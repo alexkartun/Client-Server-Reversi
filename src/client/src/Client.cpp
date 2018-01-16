@@ -49,7 +49,6 @@ void Client::connectToServer() {
 	if (connect(clientSocket, (struct sockaddr *) &serverAdress, sizeof(serverAdress)) == -1) {
 		throw "Error connecting to server";
 	}
-	cout << "Connected to server" << endl << endl;
 }
 
 void Client::readFromServer(char *buffer, int len) {
